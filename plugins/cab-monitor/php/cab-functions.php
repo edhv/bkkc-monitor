@@ -4,9 +4,9 @@
 
 class cab_functions
 {
-	
 
-	
+
+
 	function __construct()
 	{
 		//echo $this->get_owner_by_organisation_id(12);
@@ -20,9 +20,9 @@ class cab_functions
             if ( 'cab_organisation' != get_post_type( $post_id )) {
                  return;
              }
-  			
+
   			// delete the cached organisation
-            delete_transient( 'organisation_'.$post_id ); 
+            delete_transient( 'organisation_'.$post_id );
 
             // delete the cached organisations export
             delete_transient( 'get_bloementuin_organisations_export' );
@@ -74,7 +74,7 @@ class cab_functions
 
 		$url_address = urlencode($address['street']." ".$address['nr'].", ".$address['city']);
     	$json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$url_address&sensor=false");
-    	
+
     	$return = json_decode($json);
 		//http://maps.googleapis.com/maps/api/geocode/json?address=Citadellaan+7,+'s-hertogenbosch&sensor=false
 
@@ -89,7 +89,7 @@ class cab_functions
 	}
 
 	function get_organisation_address($id, $type = false) {
-		
+
 		$organisation_data = $this->get_organisation_data($id);
 
 		$visitor_address_array['city'] = $organisation_data['general']['visit_address_city'];
@@ -122,7 +122,7 @@ class cab_functions
 
 	}
 
-	// 
+	//
 	function get_gform_form_data($form_id) {
 
 		global $wpdb;
@@ -169,7 +169,7 @@ class cab_functions
 		$html .= "</tr>";
 
 		// Values
-	
+
 		foreach ($array as $row) {
 			$html .= "<tr>";
 
@@ -319,12 +319,12 @@ class cab_functions
 							// If period data exists
 							// if (isset($organisation['periodical'][$period_id])) {
 
-			
+
 
 							// 	$export .= "\t\t\t<groepen>".$categories."</groepen>\n"; //Categorien
 			    // 				$export .= "\t\t\t<sectoren>".$sectors."</sectoren>\n";
 			    // 				$export .= "\t\t\t<ketens>".$chain."</ketens>\n";
-								
+
 
 							// 	$export .= "\n";
 
@@ -412,12 +412,12 @@ class cab_functions
 							// 	$export .= "\t\t\t<!-- Projecten -->\n";
 							// 	$export .= "\t\t\t<projecten></projecten>\n\n";
 
-								
+
 		    	// 			} else {
 		    	// 				$export .= "\t\t\t<groepen>1</groepen>\n"; //Categorien
 			    // 				$export .= "\t\t\t<sectoren>1</sectoren>\n";
 			    // 				$export .= "\t\t\t<ketens>1</ketens>\n";
-								
+
 		    	// 			}
 
 							$export .= "\t\t</instelling>\n";
@@ -430,7 +430,7 @@ class cab_functions
 		            [name] => Muziekgebouw Eindhoven
 		            [email] => Welkom@MuziekgebouwEindhoven.nl
 		            [telephone] => 040-26555664
-		            [geo] => 
+		            [geo] =>
 		            [website] => www.muziekgebouwEindhoven.nl
 		            [twitter] => MuziekgebouwEHV
 		            [facebook] => nl-nl.facebook.com/MuziekgebouwEindhoven
@@ -454,14 +454,14 @@ class cab_functions
 						$export .= "</datastructure>";
 						# code...
 					break;
-					
+
 				}
 
 
 				set_transient( 'get_bloementuin_organisations_export', $export, 12 * HOUR_IN_SECONDS );
 
 		}
-		
+
 		return $export;
 	}
 
@@ -538,7 +538,7 @@ class cab_functions
 
 		if ($cache) {
 			return $cache;
-		} 
+		}
 
 
 
@@ -601,7 +601,7 @@ class cab_functions
 			"kernactiviteiten_discipline" => get_field('kernactiviteiten_discipline', $organisation_id),
 			"kernactiviteiten_type" => get_field('kernactiviteiten_type', $organisation_id)
 		);
-		
+
 
 
 
@@ -634,21 +634,21 @@ class cab_functions
 			$organisation_discipline_array = array();
 			$organisation_discipline_results = $wpdb->get_results( "SELECT discipline_id FROM ".$wpdb->prefix."cab_organisatie_discipline WHERE organisation_id = ".$organisation_id." AND period_id = ".$period->term_id, ARRAY_A );
 			foreach ($organisation_discipline_results as $discipline) {
-				array_push($organisation_discipline_array, $discipline['discipline_id']); 
+				array_push($organisation_discipline_array, $discipline['discipline_id']);
 			}
 
 			// Prepare type data
 			$organisation_type_array = array();
 			$organisation_type_results = $wpdb->get_results( "SELECT type_id FROM ".$wpdb->prefix."cab_organisatie_type WHERE organisation_id = ".$organisation_id." AND period_id = ".$period->term_id, ARRAY_A );
 			foreach ($organisation_type_results as $type) {
-				array_push($organisation_type_array, $type['type_id']); 
+				array_push($organisation_type_array, $type['type_id']);
 			}
-			
+
 			// Prepare keten data
 			$organisation_keten_array = array();
 			$organisation_keten_results = $wpdb->get_results( "SELECT keten_id FROM ".$wpdb->prefix."cab_organisatie_keten WHERE organisation_id = ".$organisation_id." AND period_id = ".$period->term_id, ARRAY_A );
 			foreach ($organisation_keten_results as $keten) {
-				array_push($organisation_keten_array, $keten['keten_id']); 
+				array_push($organisation_keten_array, $keten['keten_id']);
 			}
 
 
@@ -664,12 +664,12 @@ class cab_functions
 			foreach ($tables_to_get as $table) {
 
 				if ($table[0] === "cab_activiteiten") {
-					$sql = "SELECT id, period_id, organisation_id, aanv_vragenlijst_id, (IF(IFNULL(aantal, 0) <= 0, (IFNULL(in_opdracht, 0)+IFNULL(eigen_werk, 0)+IFNULL(premieres, 0)+IFNULL(reprises, 0)) ,aantal)) AS aantal, in_opdracht, eigen_werk, premieres, reprises FROM ".$wpdb->prefix.$table[0]; 
+					$sql = "SELECT id, period_id, organisation_id, aanv_vragenlijst_id, (IF(IFNULL(aantal, 0) <= 0, (IFNULL(in_opdracht, 0)+IFNULL(eigen_werk, 0)+IFNULL(premieres, 0)+IFNULL(reprises, 0)) ,aantal)) AS aantal, in_opdracht, eigen_werk, premieres, reprises FROM ".$wpdb->prefix.$table[0];
 				} else {
 					$sql = "SELECT * FROM ".$wpdb->prefix.$table[0];
 				}
-				
-				
+
+
 				$sql = "SELECT * FROM ".$wpdb->prefix.$table[0];
 
 				$organisation_data["periodical"][$period->term_id]["data"][$table[0]] = array();
@@ -677,22 +677,22 @@ class cab_functions
 				$sql_where .= " organisation_id = ".$organisation_id." ";
 				$sql_where .= " AND period_id = ".$period->term_id." ";
 
-				if (count($aanvullende_vragenlijsten) > 0 && $table[1] == true) { 
-					$sql_where .= " AND ( "; 
+				if (count($aanvullende_vragenlijsten) > 0 && $table[1] == true) {
+					$sql_where .= " AND ( ";
 					foreach ($aanvullende_vragenlijsten as $aanv) {
 
 						$sql_where .= " aanv_vragenlijst_id = ".$aanv." OR";
 					}
 					// Remove last OR
 					$sql_where = substr_replace($sql_where ,"",-2);
-					$sql_where .= " ) "; 
+					$sql_where .= " ) ";
 				}
-			
-				
+
+
 				$rows = $wpdb->get_results( $sql.$sql_where, ARRAY_A );
 
 
-				// parse results 
+				// parse results
 
 				foreach ($rows as $row) {
 
@@ -726,7 +726,7 @@ class cab_functions
 			"title"
 			"details" => array(
 				"general" => array(
-					
+
 				),
 				"periodical" => array(
 					"period" => 2012,
@@ -807,8 +807,8 @@ class cab_functions
 
 		foreach ($tables_array as $table_name) {
 			$wpdb->delete(
-				$wpdb->prefix.$table_name, 
-				array( 'organisation_id' => $organisation_id ) 
+				$wpdb->prefix.$table_name,
+				array( 'organisation_id' => $organisation_id )
 			);
 		}
 	}
@@ -826,7 +826,7 @@ class cab_functions
 
 	// Returns an array with organisation id's by kernactiviteit type
 	function get_all_organisations_by_kernactiviteit_type_list() {
-		
+
 		global $wpdb;
 
 		$type_array[1] = "Theater";
@@ -841,26 +841,26 @@ class cab_functions
 		$type_array[10] = "Opleiding";
 		$type_array[11] = "Steunfunctie";
 
-		$table_name = $wpdb->prefix . "cab_organisatie_type"; 
+		$table_name = $wpdb->prefix . "cab_organisatie_type";
 
 		$organisations_by_type = array();
 
 		// Walk throught the types and get corresponding organisations
 		foreach ($type_array as $key => $type) {
-			
+
 			if (!array_key_exists($key, $organisations_by_type)) {
 				$organisations_by_type[$key] = array('label'=>$type_array[$key],'organisations'=>array());
-			} 
+			}
 
-			// Get all organisations of a certain type	   
+			// Get all organisations of a certain type
 			$sql = "SELECT DISTINCT organisation_id FROM ".$table_name." WHERE type_id = ".$key;
 			$organisations = $wpdb->get_results($sql, 'ARRAY_N');
-			
+
 			foreach ($organisations as $organisation) {
 
 				if ($this->is_organisation_active($organisation[0])) {
 					array_push($organisations_by_type[$key]['organisations'], $organisation[0]);
-				} 
+				}
 			}
 
 		}
@@ -872,7 +872,7 @@ class cab_functions
 
 	// Returns an array with organisation id's by type
 	function get_all_organisations_by_type_list() {
-		
+
 		global $wpdb;
 
 		$type_array[1] = "Festivals";
@@ -889,17 +889,17 @@ class cab_functions
 
 		// Walk throught the types and get corresponding organisations
 		foreach ($type_array as $key => $type) {
-			
+
 			if (!array_key_exists($key, $organisations_by_type)) {
 				$organisations_by_type[$key] = array('label'=>$type_array[$key],'amount'=>0,'organisations'=>array());
-			} 
-			
+			}
+
 
 			// Walk through organisations and compare to type_array
 			foreach ($vragenlijst_organisations as $organisation) {
-				
+
 				$categories = get_field('vragenlijst_categorie',$organisation['id']);
-				
+
 				if (in_array($key, $categories)) {
 					array_push($organisations_by_type[$key]['organisations'], $organisation['id']);
 				}
@@ -921,7 +921,7 @@ class cab_functions
 	// Returns an array with organisation id's by type
 	// UNDER CONSTRUCTION
 	function get_all_organisations_by_city_list() {
-		
+
 		global $wpdb;
 
 		// $type_array[1] = "Festivals";
@@ -946,8 +946,8 @@ class cab_functions
 			$array_key = $user_meta['user-cab_postadres-plaats'][0];
 
 			if (!isset($organisation_city_array[$array_key])) {
-				
-				
+
+
 				$organisation_city_array[$array_key] = array();
 
 				//$organisation_city_array[$array_key][] = "a";
@@ -962,17 +962,17 @@ class cab_functions
 
 		// // Walk throught the types and get corresponding organisations
 		// foreach ($type_array as $key => $type) {
-			
+
 		// 	if (!array_key_exists($key, $organisations_by_type)) {
 		// 		$organisations_by_type[$key] = array('label'=>$type_array[$key],'organisations'=>array());
-		// 	} 
-			
+		// 	}
+
 
 		// 	// Walk through organisations and compare to type_array
 		// 	foreach ($vragenlijst_organisations as $organisation) {
-				
+
 		// 		$categories = get_field('vragenlijst_categorie',$organisation['id']);
-				
+
 		// 		if (in_array($key, $categories)) {
 		// 			array_push($organisations_by_type[$key]['organisations'], $organisation['id']);
 		// 		}
@@ -988,7 +988,7 @@ class cab_functions
 
 	// Checks if an organisation is part of the vragenlijst and if the organisation is active
 	function is_organisation_active($organisation_id, $application_allowed = false) {
-		
+
 		$organisation = get_post( $organisation_id, "OBJECT");
 
 		if ($organisation->post_status != 'trash' && $this->is_application_allowed($organisation_id, "vragenlijst") ) {
@@ -996,7 +996,7 @@ class cab_functions
 		} else {
 			return false;
 		}
-	
+
 	}
 
 
@@ -1033,7 +1033,7 @@ class cab_functions
 
 	// Generate a list of ID and Organisation Name
 	function get_all_organisations_list($orderby = "post_date", $order = "DESC") {
-		
+
 
 
 
@@ -1044,9 +1044,9 @@ class cab_functions
 			$owner_id = $this->get_user_id_by_organisation_id($organisation->ID);
 
 			$organisation_name = get_user_meta($owner_id, 'user-cab_organisatie-naam');
-			
+
 			array_push($organisation_list, array("id"=>$organisation->ID,"name"=>$organisation_name[0]));
-			
+
 		}
 
  		return $organisation_list;
@@ -1088,7 +1088,7 @@ class cab_functions
 				// } else {
 				// 	echo 'nee';
 				// }
-				 
+
 				 }
 				// $owner_id = $this->get_user_id_by_organisation_id($organisation->ID);
 				// $organisation_name = get_user_meta($owner_id, 'user-cab_organisatie-naam');
@@ -1157,7 +1157,7 @@ class cab_functions
 
 
 	function get_organisation_by_id($id) {
-	
+
 		return array(get_post($id));
 	}
 
@@ -1168,7 +1168,7 @@ class cab_functions
 		//if ($this->is_application_allowed($organisation_id,'vragenlijst') && $this->is_period_available($period_id, $organisation_id, true)) {
 		if ($this->is_application_allowed($organisation_id,'vragenlijst') && $this->is_period_available($period_id, $organisation_id)) {
 			$form_activity = $this->form_activity_get_data($organisation_id, $period_id);
-		
+
 		//	print_r($form_activity['last_access_date']);
 			$status = "";
 
@@ -1178,9 +1178,13 @@ class cab_functions
 				$status = "Open";
 			}
 
+      if ($form_activity['form_finish_date'] != '') {
+        $status = "Sent";
+      }
+
 			if ($form_activity['is_finished']) {
 				$status = "Finished";
-			}	
+			}
 
 			return $status;
 		}  else {
@@ -1196,7 +1200,7 @@ class cab_functions
 	}
 
 
-	// 
+	//
 	function get_organisation_id_by_user_id($user_id) {
 
 		$args = array(
@@ -1224,7 +1228,7 @@ class cab_functions
 	}
 
 	// Run through all the periods connected to the organisation to check
-	// if the given period is allowed/active for the organisation	
+	// if the given period is allowed/active for the organisation
 	function is_period_available($period_id, $organisation_id) {
 
 		$periods = get_field('vragenlijst_periodes', $organisation_id);
@@ -1250,7 +1254,7 @@ class cab_functions
 
 		/*
 
-		array 
+		array
 
 		form_activity => period_id = 2
 						 auto_save = serialized by field id
@@ -1321,7 +1325,7 @@ class cab_functions
 		$form_activity = $this->form_activity_get_data($organisation_id, $period_id);
 
 		$form_activity['entry_id'] = $entry['id'];
-		$form_activity['is_finished'] = true;
+		$form_activity['is_finished'] = false;
 		$form_activity['auto_save'] = '';
 		$form_activity['form_finish_date'] = date('Y-m-d H:i:s');
 		// Save the activity
@@ -1355,7 +1359,7 @@ class cab_functions
 		//$form_activity = preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", $form_activity);
 
 		return $form_activity;
-		
+
 
 	}
 
@@ -1445,12 +1449,12 @@ class cab_functions
 			return false;
 		}
 
-	
+
 		$fields = get_field('vragenlijst_periodes', $organisation_id);
 		$forms = array();
 		if (is_array($fields)) {
 			foreach ($fields as $key => $period_id) {
-				
+
 				$periodName = substr($periodsField['choices'][$period_id], 0,4);
 
 				$object = new stdClass();
@@ -1461,11 +1465,11 @@ class cab_functions
 				//if ($term_object != '') {
 					$forms[$period_id] = $object;
 				//}
-				
+
 
 			}
 		}
-		
+
 
 		// Get filled forms data
 		$form_activity = $this->form_activity_get_all($organisation_id);
@@ -1513,8 +1517,8 @@ class cab_functions
 	    }
 
 
-		  $wpdb->insert( 
-		        $wpdb->prefix.$table, 
+		  $wpdb->insert(
+		        $wpdb->prefix.$table,
 		        $columns
 		        );
 
@@ -1524,7 +1528,7 @@ class cab_functions
 	}
 
 	/*
-	
+
 	$table = name of table
 	$values = array of values grouped by column
 
@@ -1542,7 +1546,7 @@ class cab_functions
 			foreach ($values as $key => $value) {
 
 				foreach ($value as $sub_key => $sub_value) {
-					$this->add_data($table, $organisation_id, $period_id,array($key => $sub_value)); 
+					$this->add_data($table, $organisation_id, $period_id,array($key => $sub_value));
 				}
 			}
 
@@ -1555,7 +1559,7 @@ class cab_functions
     	$table_name = $wpdb->prefix . $table;
     	$sql = "SELECT * FROM ".$wpdb->prefix.$table." WHERE organisation_id = $organisation_id AND period_id = $period";
     	$result = $wpdb->get_results($sql, 'ARRAY_A');
-    	
+
     	if ($result) {
 
 			// Create a new array which stores the multivalue in a better manner
@@ -1565,24 +1569,24 @@ class cab_functions
 	    	}
 	    	$return_array = array('period_id'=>$result[0]['period_id'],'organisation_id'=>$result[0]['organisation_id'],'values'=>$type_id_array);
 
-	 		return $return_array; 
+	 		return $return_array;
 
     	} else {
     		return false;
     	}
-    	
+
 	}
 
 	// Gets a row from the specified table and returns associative array
 	function get_table_data($table, $organisation_id, $period, $aanv_vragenlijst_id = false) {
     	global $wpdb;
-    	$table_name = $wpdb->prefix . $table; 
+    	$table_name = $wpdb->prefix . $table;
 
 		$sql = "SELECT * FROM ".$wpdb->prefix.$table." WHERE organisation_id = $organisation_id AND period_id = $period";
     	if ($aanv_vragenlijst_id) {
     		$sql .= " AND aanv_vragenlijst_id = $aanv_vragenlijst_id";
-    	} 
-    	return $wpdb->get_row($sql, 'ARRAY_A');  
+    	}
+    	return $wpdb->get_row($sql, 'ARRAY_A');
 	}
 
 
@@ -1642,7 +1646,7 @@ class cab_functions
 
 	function is_application_allowed($post_id, $application) {
 
-		/* bloementuin:1 */ 
+		/* bloementuin:1 */
 
 		/* vragenlijst:2 */
 		$connected_applications = get_field('gekoppeld', $post_id);
@@ -1654,7 +1658,7 @@ class cab_functions
 						return true;
 					}
 				break;
-			
+
 				case 'vragenlijst':
 					if (in_array(2, $connected_applications)) {
 						return true;
@@ -1788,7 +1792,7 @@ class cab_functions
 	function get_organisation_data_sum($organisations_list, $table, $fields, $period = false) {
 
     	global $wpdb;
-    	$table_name = $wpdb->prefix . $table; 
+    	$table_name = $wpdb->prefix . $table;
 
     	// Generate select part
     	$query_select = "";
@@ -1806,7 +1810,7 @@ class cab_functions
 	    			$combine_fields .= "SUM(".$field.") + ";
 	    		}
 	    		$combine_fields = rtrim($combine_fields, " + ");
-				
+
 				$query_select .= "(".$combine_fields.") as ".$combine_group['label'].",";
     		}
 
@@ -1825,9 +1829,9 @@ class cab_functions
 		if ($period) {
 			$sql .= " AND period_id = ".$period;
 		}
-	
 
-    	return $wpdb->get_results($sql, 'ARRAY_A');  
+
+    	return $wpdb->get_results($sql, 'ARRAY_A');
 
 	}
 
@@ -1840,7 +1844,7 @@ class cab_functions
 		$data_type_array = array();
 
 		foreach ($organisation_list_by_type as $key => $type) {
-			
+
 			$data_type_array[$key]['label'] = $type['label'];
 
 			if (count($type['organisations']) > 0) {
@@ -1857,17 +1861,17 @@ class cab_functions
 		}
 
 		return $data_type_array;
-		
+
 	}
 
 
 	// Returns the sum/total of the given organisations
 	// get_organisation_data_sum(array, string, array)
 	function get_organisation_data_radio($organisations_list, $table, $fields, $radio, $period = false) {
-		
+
 
 		global $wpdb;
-    	$table_name = $wpdb->prefix . $table; 
+    	$table_name = $wpdb->prefix . $table;
 
 
 
@@ -1890,14 +1894,14 @@ class cab_functions
 			$sql .= " AND period_id = ".$period;
 		}
 
-    	$media_aandacht = $wpdb->get_results($sql, 'ARRAY_A'); 
+    	$media_aandacht = $wpdb->get_results($sql, 'ARRAY_A');
 
 
     	$return_array = array();
     	//print_r($radio);
 
     	foreach ($radio as $value) {
-    		
+
     		# code...
     		$return_array[$value] = "";
     	}
@@ -1941,9 +1945,9 @@ class cab_functions
 		 	}
 
 		 }
-		
+
 		return $data_type_array;
-		
+
 	}
 
 
@@ -1970,10 +1974,10 @@ function combine_organisation_lists($main_array, $additional_array) {
 							$merged_array[$key][$key_city][$key_type] = $merge;
 						}
 					}
-					
+
 				}
 			}
-		
+
 		}
 
 		# code...
@@ -1997,7 +2001,7 @@ function organisation_list_to_id_list($organisation_array, $sort_by = "all") {
 			foreach ($organisation_array as $city_label => $city) {
 				foreach ($city as $type_key => $type_value) {
 					# code...
-					
+
 					 $result_array = array_merge($result_array, $type_value);
 				}
 				# code...
@@ -2005,7 +2009,7 @@ function organisation_list_to_id_list($organisation_array, $sort_by = "all") {
 		break;
 
 
-		
+
 		case 'type':
 			$result_array_2 = array();
 
@@ -2014,9 +2018,9 @@ function organisation_list_to_id_list($organisation_array, $sort_by = "all") {
 
 					if (!isset($result_array_2[$type_key])) {
 						$result_array_2[$type_key] = array();
-					} 
+					}
 					$result_array_2[$type_key] = array_merge($result_array_2[$type_key], $type_value);
-					
+
 				}
 			}
 
@@ -2028,7 +2032,7 @@ function organisation_list_to_id_list($organisation_array, $sort_by = "all") {
 						"amount"=>count($value),
 						"organisations" => $value
 					);
-			
+
 
 			}
 		break;
@@ -2128,7 +2132,7 @@ function cab_user_is_allowed() {
 		return false;
 	}
 
-	
+
 }
 
 
@@ -2150,19 +2154,19 @@ function cab_show_menu() {
 			echo '</ul>';
 			echo '</span>';
 		echo '</div>';
-		
+
 }
 
 /**
 * Replace the 'NULL' string with NULL
-* 
+*
 * @param  string $query
 * @return string $query
 */
 
 function wp_db_null_value( $query )
 {
-  return str_ireplace( "'NULL'", "NULL", $query ); 
+  return str_ireplace( "'NULL'", "NULL", $query );
 }
 
 
