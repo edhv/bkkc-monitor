@@ -2,9 +2,9 @@
 
 class cab_import
 {
-	
+
 	var $settings;
-	
+
 	function __construct()
 	{
 		global $cab_functions;
@@ -14,7 +14,7 @@ class cab_import
 
 	function register_submenu_page() {
 		add_submenu_page('edit.php?post_type=cab_organisation', 'Export CAB', 'Exporteren', 'manage_options', 'cab_organisation', array($this,'show_import_export'));
-		//add_submenu_page( 'tools.php', 'My Custom Submenu Page', 'My Custom Submenu Page', 'manage_options', 'my-custom-submenu-page', 'my_custom_submenu_page_callback' ); 
+		//add_submenu_page( 'tools.php', 'My Custom Submenu Page', 'My Custom Submenu Page', 'manage_options', 'my-custom-submenu-page', 'my_custom_submenu_page_callback' );
 	}
 
 
@@ -32,10 +32,10 @@ class cab_import
 	    $column_names = str_getcsv($file_lines[0], ',', '"');
 
 	    foreach ($file_lines as $key => $row) {
-	    		
+
 	    	$csv_line = str_getcsv($row, ',', '"');
 	    	$csv_line_ass = array();
-	    	
+
 	    	foreach ($csv_line as $key => $column) {
 	    		$csv_line_ass[$column_names[$key]] = $column;
 	    	}
@@ -58,13 +58,13 @@ class cab_import
 	    		$user_name = $new_user['organisatie-email'];
 	    		$user_email = $new_user['organisatie-email'];
 				$user_id = username_exists( $new_user['organisatie-email'] );
-				
+
 				if ( !$user_id and email_exists($new_user['organisatie-email']) == false ) {
-					
+
 					$random_password = wp_generate_password( $length=6, $include_standard_special_chars=false );
 					$user_id = wp_insert_user( array (
-						'user_login' => $user_name, 
-						'user_pass' => $random_password, 
+						'user_login' => $user_name,
+						'user_pass' => $random_password,
 						'user_email' => $user_email,
 						'role' => 'cab_organisation'
 						)
@@ -146,7 +146,7 @@ class cab_import
 		if (isset($wp_error)) {
 		return $wp_error;
 		}
-		
+
 	}
 
 
@@ -166,7 +166,7 @@ class cab_import
 
 
 	    foreach ($organisation_data as $key => $organisation) {
-	    
+
 	    	// Check if organisation exists
 	    	if (get_post($organisation['instelling_id'])) {
 
@@ -176,20 +176,20 @@ class cab_import
 
 	    		// Organisation categories
 		    	$this->cab_functions->set_habtm_table_data(
-		    		'cab_organisatie_keten', 
-		    		array("keten_id" => explode(",", $organisation['keten'])), 
+		    		'cab_organisatie_keten',
+		    		array("keten_id" => explode(",", $organisation['keten'])),
 		    		$organisation_id, $period_id
 		    	);
 
 		    	$this->cab_functions->set_habtm_table_data(
-		    		'cab_organisatie_type', 
-		    		array("type_id" => explode(",", $organisation['type'])), 
+		    		'cab_organisatie_type',
+		    		array("type_id" => explode(",", $organisation['type'])),
 		    		$organisation_id, $period_id
 		    	);
 
 		    	$this->cab_functions->set_habtm_table_data(
-		    		'cab_organisatie_discipline', 
-		    		array("discipline_id" => explode(",", $organisation['discipline'])), 
+		    		'cab_organisatie_discipline',
+		    		array("discipline_id" => explode(",", $organisation['discipline'])),
 		    		$organisation_id, $period_id
 		    	);
 
@@ -223,7 +223,7 @@ class cab_import
 				  'overig_toelichting' => $organisation['namen_overige_fondsen']
 		    	);
 
-		    	$this->cab_functions->add_data("cab_subsidy", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_subsidy", $organisation_id, $period_id,$columns);
 
 		    	// Eigen inkomsten
 		    	$columns = array(
@@ -233,13 +233,13 @@ class cab_import
   					'private_fondsen' => $organisation['eigen_inkomsten_private_fondsen'],
   					'overig' => $organisation['eigen_inkomsten_overig']
   				);
-		    	$this->cab_functions->add_data("cab_eigen_inkomsten", $organisation_id, $period_id,$columns); 
- 
+		    	$this->cab_functions->add_data("cab_eigen_inkomsten", $organisation_id, $period_id,$columns);
+
 		    	// Omzet
 		    	$columns = array(
 		    		'totaal' => $organisation['omzet_totaal']
   				);
-		    	$this->cab_functions->add_data("cab_omzet", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_omzet", $organisation_id, $period_id,$columns);
 
 		    	// Organisatie
 		    	$columns = array(
@@ -248,25 +248,25 @@ class cab_import
   					'vrijwilligers' => $organisation['organisatie_vrijwilligers'],
   					'stagiaires' => $organisation['organisatie_stagiaires']
   				);
-		    	$this->cab_functions->add_data("cab_organisatie", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_organisatie", $organisation_id, $period_id,$columns);
 
 		    	// Scholing
 		    	$columns = array(
 		    		'uitgaven' => $organisation['scholing_uitgaven']
   				);
-		    	$this->cab_functions->add_data("cab_scholing", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_scholing", $organisation_id, $period_id,$columns);
 
 		    	// Media
 		    	$columns = array(
 		    		'aandacht' => $organisation['media_aandacht']
   				);
-		    	$this->cab_functions->add_data("cab_media", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_media", $organisation_id, $period_id,$columns);
 
 		    	// Marketing
 		    	$columns = array(
 		    		'uitgaven' => $organisation['marketing_uitgaven']
   				);
-		    	$this->cab_functions->add_data("cab_marketing", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_marketing", $organisation_id, $period_id,$columns);
 
 
 
@@ -281,7 +281,7 @@ class cab_import
 					'premieres' => '',
 					'aanv_vragenlijst_id' => 1
   				);
-		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns);
 
 		    	// Nevenactiviteiten
 				$columns = array(
@@ -291,7 +291,7 @@ class cab_import
 					'overig_toelichting' => $organisation['1_nevenactiviteiten_over_text'],
 					'aanv_vragenlijst_id' => 1
   				);
-		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns);
 
  		    	// Bezoekers
 				$columns = array(
@@ -302,10 +302,10 @@ class cab_import
 					'buitenland' => $organisation['1_bezoekers_buitenland'],
 					'podium' => '',
 					'festivals' => '',
-					'overig' => '',					
+					'overig' => '',
 					'aanv_vragenlijst_id' => 1
   				);
-		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns);
 
 
 
@@ -317,7 +317,7 @@ class cab_import
 					'premieres' => '',
 					'aanv_vragenlijst_id' => 2
   				);
-		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns);
 
 		    	// Nevenactiviteiten
 				$columns = array(
@@ -327,7 +327,7 @@ class cab_import
 					'overig_toelichting' => $organisation['2_nevenactiviteiten_over_text'],
 					'aanv_vragenlijst_id' => 2
   				);
-		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns);
 
  		    	// Bezoekers
 				$columns = array(
@@ -338,10 +338,10 @@ class cab_import
 					'buitenland' => $organisation['2_bezoekers_buitenland'],
 					'podium' => '',
 					'festivals' => '',
-					'overig' => '',					
+					'overig' => '',
 					'aanv_vragenlijst_id' => 2
   				);
-		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns);
 
 
 		    	// FILM
@@ -352,7 +352,7 @@ class cab_import
 					'premieres' => '',
 					'aanv_vragenlijst_id' => 3
   				);
-		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns);
 
 		    	// vertoningen
 				$columns = array(
@@ -369,7 +369,7 @@ class cab_import
 					'internet_toelichting' => $organisation['3_vertoningen_internet_text'],
 					'aanv_vragenlijst_id' => 3
   				);
-		    	$this->cab_functions->add_data("cab_vertoningen", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_vertoningen", $organisation_id, $period_id,$columns);
 
 
 		    	// Musea
@@ -380,7 +380,7 @@ class cab_import
 					'premieres' => '',
 					'aanv_vragenlijst_id' => 4
   				);
-		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns);
 
 		    	// Nevenactiviteiten
 				$columns = array(
@@ -390,7 +390,7 @@ class cab_import
 					'overig_toelichting' => $organisation['4_nevenactiviteiten_over_text'],
 					'aanv_vragenlijst_id' => 4
   				);
-		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns);
 
  		    	// Bezoekers
 				$columns = array(
@@ -401,10 +401,10 @@ class cab_import
 					'buitenland' => $organisation['4_bezoekers_buitenland'],
 					'podium' => '',
 					'festivals' => '',
-					'overig' => '',					
+					'overig' => '',
 					'aanv_vragenlijst_id' => 4
   				);
-		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns);
 
 
 
@@ -416,7 +416,7 @@ class cab_import
 					'premieres' => '',
 					'aanv_vragenlijst_id' => 5
   				);
-		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns);
 
 		    	// Nevenactiviteiten
 				$columns = array(
@@ -426,7 +426,7 @@ class cab_import
 					'overig_toelichting' => $organisation['5_nevenactiviteiten_over_text'],
 					'aanv_vragenlijst_id' => 5
   				);
-		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns);
 
 
  		    	// Bezoekers
@@ -438,10 +438,10 @@ class cab_import
 					'buitenland' => $organisation['5_bezoekers_buitenland'],
 					'podium' => '',
 					'festivals' => '',
-					'overig' => '',					
+					'overig' => '',
 					'aanv_vragenlijst_id' => 5
   				);
-		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns);
 
 
 
@@ -453,7 +453,7 @@ class cab_import
 					'premieres' => '',
 					'aanv_vragenlijst_id' => 7
   				);
-		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns);
 
 		    	// Nevenactiviteiten
 				$columns = array(
@@ -463,7 +463,7 @@ class cab_import
 					'overig_toelichting' => $organisation['7_nevenactiviteiten_over_text'],
 					'aanv_vragenlijst_id' => 7
   				);
-		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns);
 
 
  		    	// Bezoekers
@@ -475,10 +475,10 @@ class cab_import
 					'buitenland' => $organisation['7_bezoekers_buitenland'],
 					'podium' => '',
 					'festivals' => '',
-					'overig' => '',					
+					'overig' => '',
 					'aanv_vragenlijst_id' => 7
   				);
-		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns);
 
 
 
@@ -490,7 +490,7 @@ class cab_import
 					'premieres' => $organisation['6_activiteiten_premieres'],
 					'aanv_vragenlijst_id' => 6
   				);
-		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_activiteiten", $organisation_id, $period_id,$columns);
 
  		    	// Spreiding
 				$columns = array(
@@ -501,10 +501,10 @@ class cab_import
 					'podium' => $organisation['6_uitvoeringen_podiumcircuit'],
 					'festivals' => $organisation['6_uitvoeringen_festivals'],
 					'scholen' => $organisation['6_uitvoeringen_scholen'],
-					'overig' => $organisation['6_uitvoeringen_overig'],				
+					'overig' => $organisation['6_uitvoeringen_overig'],
 					'aanv_vragenlijst_id' => 6
   				);
-		    	$this->cab_functions->add_data("cab_spreiding", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_spreiding", $organisation_id, $period_id,$columns);
 
 		    	// Nevenactiviteiten
 				$columns = array(
@@ -514,7 +514,7 @@ class cab_import
 					'overig_toelichting' => $organisation['6_waarvan_overig_tekst'],
 					'aanv_vragenlijst_id' => 6
   				);
-		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_nevenactiviteiten", $organisation_id, $period_id,$columns);
 
  		    	// Bezoekers
 				$columns = array(
@@ -526,10 +526,10 @@ class cab_import
 					'podium' => $organisation['6_bezoekers_podiumcircuit'],
 					'festivals' => $organisation['6_bezoekers_festivals'],
 					'scholen' => $organisation['6_bezoekers_scholen'],
-					'overig' => $organisation['6_bezoekers_overig'],				
+					'overig' => $organisation['6_bezoekers_overig'],
 					'aanv_vragenlijst_id' => 6
   				);
-		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns); 
+		    	$this->cab_functions->add_data("cab_bezoekers", $organisation_id, $period_id,$columns);
 
 
 
@@ -549,7 +549,7 @@ class cab_import
 
 	    		if (isset($wp_error)) {
 		return $wp_error;
-		} 
+		}
 
 		//print_r($organisation_data);
 		/*
@@ -557,7 +557,7 @@ class cab_import
             [type] => 8
             [discipline] => 1
             [keten] => 2,1
-            [] => 
+            [] =>
             [data_periode] => 2
             [subsidie_totaal] => 3507959
             [subsidie_gemeente] => 545953
@@ -566,159 +566,159 @@ class cab_import
             [subsidie_provincie_meerjarig] => 1
             [subsidie_rijk] => 2643221
             [subsidie_rijk_meerjarig] => 1
-            [subsidie_fonds_podiumkunsten] => 
-            [subsidie_fonds_podiumkunsten_meerjarig] => 
-            [subsidie_mondriaanstichting] => 
-            [subsidie_mondriaanstichting_meerjarig] => 
-            [subsidie_mondriaanfonds] => 
-            [subsidie_fonds_bkvb] => 
-            [subsidie_fonds_bkvb_meerjarig] => 
-            [subsidie_mediafonds] => 
-            [subsidie_mediafonds_meerjarig] => 
-            [subsidie_nl_film_fonds] => 
-            [subsidie_nl_film_fonds_meerjarig] => 
-            [subsidie_stim_fonds_ci] => 
-            [subsidie_stim_fonds_ci_meerjarig] => 
-            [subsidie_letterenfonds] => 
-            [subsidie_letterenfonds_meerjarig] => 
-            [subsidie_overige_fondsen] => 
-            [namen_overige_fondsen] => 
+            [subsidie_fonds_podiumkunsten] =>
+            [subsidie_fonds_podiumkunsten_meerjarig] =>
+            [subsidie_mondriaanstichting] =>
+            [subsidie_mondriaanstichting_meerjarig] =>
+            [subsidie_mondriaanfonds] =>
+            [subsidie_fonds_bkvb] =>
+            [subsidie_fonds_bkvb_meerjarig] =>
+            [subsidie_mediafonds] =>
+            [subsidie_mediafonds_meerjarig] =>
+            [subsidie_nl_film_fonds] =>
+            [subsidie_nl_film_fonds_meerjarig] =>
+            [subsidie_stim_fonds_ci] =>
+            [subsidie_stim_fonds_ci_meerjarig] =>
+            [subsidie_letterenfonds] =>
+            [subsidie_letterenfonds_meerjarig] =>
+            [subsidie_overige_fondsen] =>
+            [namen_overige_fondsen] =>
             [eigen_inkomsten_totaal] => 542768
             [eigen_inkomsten_publiek] => 370833
-            [eigen_inkomsten_sponsoring] => 
+            [eigen_inkomsten_sponsoring] =>
             [eigen_inkomsten_private_fondsen] => 15600
             [eigen_inkomsten_overig] => 156335
             [omzet_totaal] => 4050727
             [organisatie_fte] => 24.11
-            [organisatie_freelancers] => 
-            [organisatie_vrijwilligers] => 
-            [organisatie_stagiaires] => 
+            [organisatie_freelancers] =>
+            [organisatie_vrijwilligers] =>
+            [organisatie_stagiaires] =>
             [scholing_uitgaven] => 4588
             [marketing_uitgaven] => 98829
-            [media_aandacht] => 
-            [1_programmaonderdelen_totaal] => 
-            [1_nevenactiviteiten_totaal] => 
-            [1_educatieve_activiteiten] => 
-            [1_overige_activiteiten] => 
-            [1_nevenactiviteiten_over_text] => 
-            [1_bezoekers_totaal] => 
-            [1_bezoekers_standplaats] => 
-            [1_bezoekers_noord_brabant] => 
-            [1_bezoekers_nederland] => 
-            [1_bezoekers_buitenland] => 
-            [2_activiteiten_totaal] => 
-            [2_nevenactiviteiten_totaal] => 
-            [2_nevenactiviteiten_educatief] => 
-            [2_nevenactiviteiten_overig] => 
-            [2_nevenactiviteiten_over_text] => 
-            [2_bezoekers_totaal] => 
-            [2_bezoekers_standplaats] => 
-            [2_bezoekers_noord_brabant] => 
-            [2_bezoekers_nederland] => 
-            [2_bezoekers_buitenland] => 
-            [3_producties_totaal] => 
-            [3_waarvan_opdracht] => 
-            [3_waarvan_eigen_werk] => 
-            [3_vertoningen_totaal] => 
-            [3_vertoningen_standplaats] => 
-            [3_vertoningen_noord_brabant] => 
-            [3_vertoningen_nederland] => 
-            [3_vertoningen_buitenland] => 
-            [3_vertoningen_bioscoop] => 
-            [3_vertoningen_filmhuis] => 
-            [3_vertoningen_festival] => 
-            [3_vertoningen_omroep] => 
-            [3_vertoningen_internet] => 
-            [3_vertoningen_internet_text] => 
-            [4_activiteiten_totaal] => 
-            [4_nevenactiviteiten_totaal] => 
-            [4_nevenactiviteiten_educatief] => 
-            [4_nevenactiviteiten_overig] => 
-            [4_nevenactiviteiten_over_text] => 
-            [4_bezoekers_totaal] => 
-            [4_bezoekers_standplaats] => 
-            [4_bezoekers_noord_brabant] => 
-            [4_bezoekers_nederland] => 
-            [4_bezoekers_buitenland] => 
-            [5_activiteiten_totaal] => 
-            [5_nevenactiviteiten_totaal] => 
-            [5_nevenactiviteiten_educatief] => 
-            [5_nevenactiviteiten_overig] => 
-            [5_nevenactiviteiten_over_text] => 
-            [5_bezoekers_totaal] => 
-            [5_bezoekers_standplaats] => 
-            [5_bezoekers_noord_brabant] => 
-            [5_bezoekers_nederland] => 
-            [5_bezoekers_buitenland] => 
+            [media_aandacht] =>
+            [1_programmaonderdelen_totaal] =>
+            [1_nevenactiviteiten_totaal] =>
+            [1_educatieve_activiteiten] =>
+            [1_overige_activiteiten] =>
+            [1_nevenactiviteiten_over_text] =>
+            [1_bezoekers_totaal] =>
+            [1_bezoekers_standplaats] =>
+            [1_bezoekers_noord_brabant] =>
+            [1_bezoekers_nederland] =>
+            [1_bezoekers_buitenland] =>
+            [2_activiteiten_totaal] =>
+            [2_nevenactiviteiten_totaal] =>
+            [2_nevenactiviteiten_educatief] =>
+            [2_nevenactiviteiten_overig] =>
+            [2_nevenactiviteiten_over_text] =>
+            [2_bezoekers_totaal] =>
+            [2_bezoekers_standplaats] =>
+            [2_bezoekers_noord_brabant] =>
+            [2_bezoekers_nederland] =>
+            [2_bezoekers_buitenland] =>
+            [3_producties_totaal] =>
+            [3_waarvan_opdracht] =>
+            [3_waarvan_eigen_werk] =>
+            [3_vertoningen_totaal] =>
+            [3_vertoningen_standplaats] =>
+            [3_vertoningen_noord_brabant] =>
+            [3_vertoningen_nederland] =>
+            [3_vertoningen_buitenland] =>
+            [3_vertoningen_bioscoop] =>
+            [3_vertoningen_filmhuis] =>
+            [3_vertoningen_festival] =>
+            [3_vertoningen_omroep] =>
+            [3_vertoningen_internet] =>
+            [3_vertoningen_internet_text] =>
+            [4_activiteiten_totaal] =>
+            [4_nevenactiviteiten_totaal] =>
+            [4_nevenactiviteiten_educatief] =>
+            [4_nevenactiviteiten_overig] =>
+            [4_nevenactiviteiten_over_text] =>
+            [4_bezoekers_totaal] =>
+            [4_bezoekers_standplaats] =>
+            [4_bezoekers_noord_brabant] =>
+            [4_bezoekers_nederland] =>
+            [4_bezoekers_buitenland] =>
+            [5_activiteiten_totaal] =>
+            [5_nevenactiviteiten_totaal] =>
+            [5_nevenactiviteiten_educatief] =>
+            [5_nevenactiviteiten_overig] =>
+            [5_nevenactiviteiten_over_text] =>
+            [5_bezoekers_totaal] =>
+            [5_bezoekers_standplaats] =>
+            [5_bezoekers_noord_brabant] =>
+            [5_bezoekers_nederland] =>
+            [5_bezoekers_buitenland] =>
             [6_activiteiten_totaal] => 186
             [6_activiteiten_premieres] => 186
             [6_uitvoeringen_standplaats] => 24
             [6_uitvoeringen_noord_brabant] => 79
             [6_uitvoeringen_nederland] => 64
             [6_uitvoeringen_buitenland] => 19
-            [6_uitvoeringen_podiumcircuit] => 
-            [6_uitvoeringen_festivals] => 
-            [6_uitvoeringen_scholen] => 
-            [6_uitvoeringen_overig] => 
+            [6_uitvoeringen_podiumcircuit] =>
+            [6_uitvoeringen_festivals] =>
+            [6_uitvoeringen_scholen] =>
+            [6_uitvoeringen_overig] =>
             [6_nevenactiviteiten_totaal] => 81
             [6_waarvan_educatief] => 74
             [6_waarvan_overig] => 7
-            [6_waarvan_overig_tekst] => 
+            [6_waarvan_overig_tekst] =>
             [6_bezoekers_totaal] => 24932
             [6_bezoekers_standplaats] => 4247
             [6_bezoekers_brabant] => 8344
             [6_bezoekers_nederland] => 10348
             [6_bezoekers_buitenland] => 1993
-            [6_bezoekers_podiumcircuit] => 
-            [6_bezoekers_festivals] => 
-            [6_bezoekers_scholen] => 
-            [6_bezoekers_overig] => 
-            [7_podium_activiteiten_totaal] => 
-            [7_podium_activiteiten_premieres] => 
-            [7_podium_uitvoeringen_standplaats] => 
-            [7_podium_uitvoeringen_noord_brabant] => 
-            [7_podium_uitvoeringen_nederland] => 
-            [7_podium_uitvoeringen_buitenland] => 
-            [7_podium_uitvoeringen_podiumcircuit] => 
-            [7_podium_uitvoeringen_festivals] => 
-            [7_podium_uitvoeringen_scholen] => 
-            [7_podium_uitvoeringen_overig] => 
-            [7_podium_nevenactiviteiten_totaal] => 
-            [7_podium_waarvan_educatief] => 
-            [7_podium_waarvan_overig] => 
-            [7_podium_waarvan_overig_tekst] => 
-            [7_podium_bezoekers_totaal] => 
-            [7_podium_bezoekers_standplaats] => 
-            [7_podium_bezoekers_brabant] => 
-            [7_podium_bezoekers_nederland] => 
-            [7_podium_bezoekers_buitenland] => 
-            [7_podium_bezoekers_podiumcircuit] => 
-            [7_podium_bezoekers_festivals] => 
-            [7_podium_bezoekers_scholen] => 
-            [7_podium_bezoekers_overig] => 
-            [7_film_activiteiten_totaal] => 
-            [7_film_activiteiten_premieres] => 
-            [7_film_uitvoeringen_standplaats] => 
-            [7_film_uitvoeringen_noord_brabant] => 
-            [7_film_uitvoeringen_nederland] => 
-            [7_film_uitvoeringen_buitenland] => 
-            [7_film_uitvoeringen_filmcircuit] => 
-            [7_film_uitvoeringen_festivals] => 
-            [7_film_uitvoeringen_scholen] => 
-            [7_film_uitvoeringen_overig] => 
-            [7_film_nevenactiviteiten_totaal] => 
-            [7_film_waarvan_educatief] => 
-            [7_film_waarvan_overig] => 
-            [7_film_waarvan_overig_tekst] => 
-            [7_film_bezoekers_totaal] => 
-            [7_film_bezoekers_standplaats] => 
-            [7_film_bezoekers_brabant] => 
-            [7_film_bezoekers_nederland] => 
-            [7_film_bezoekers_buitenland] => 
-            [7_film_bezoekers_filmcircuit] => 
-            [7_film_bezoekers_festivals] => 
-            [7_film_bezoekers_scholen] => 
-            [7_film_bezoekers_overig] => 
+            [6_bezoekers_podiumcircuit] =>
+            [6_bezoekers_festivals] =>
+            [6_bezoekers_scholen] =>
+            [6_bezoekers_overig] =>
+            [7_podium_activiteiten_totaal] =>
+            [7_podium_activiteiten_premieres] =>
+            [7_podium_uitvoeringen_standplaats] =>
+            [7_podium_uitvoeringen_noord_brabant] =>
+            [7_podium_uitvoeringen_nederland] =>
+            [7_podium_uitvoeringen_buitenland] =>
+            [7_podium_uitvoeringen_podiumcircuit] =>
+            [7_podium_uitvoeringen_festivals] =>
+            [7_podium_uitvoeringen_scholen] =>
+            [7_podium_uitvoeringen_overig] =>
+            [7_podium_nevenactiviteiten_totaal] =>
+            [7_podium_waarvan_educatief] =>
+            [7_podium_waarvan_overig] =>
+            [7_podium_waarvan_overig_tekst] =>
+            [7_podium_bezoekers_totaal] =>
+            [7_podium_bezoekers_standplaats] =>
+            [7_podium_bezoekers_brabant] =>
+            [7_podium_bezoekers_nederland] =>
+            [7_podium_bezoekers_buitenland] =>
+            [7_podium_bezoekers_podiumcircuit] =>
+            [7_podium_bezoekers_festivals] =>
+            [7_podium_bezoekers_scholen] =>
+            [7_podium_bezoekers_overig] =>
+            [7_film_activiteiten_totaal] =>
+            [7_film_activiteiten_premieres] =>
+            [7_film_uitvoeringen_standplaats] =>
+            [7_film_uitvoeringen_noord_brabant] =>
+            [7_film_uitvoeringen_nederland] =>
+            [7_film_uitvoeringen_buitenland] =>
+            [7_film_uitvoeringen_filmcircuit] =>
+            [7_film_uitvoeringen_festivals] =>
+            [7_film_uitvoeringen_scholen] =>
+            [7_film_uitvoeringen_overig] =>
+            [7_film_nevenactiviteiten_totaal] =>
+            [7_film_waarvan_educatief] =>
+            [7_film_waarvan_overig] =>
+            [7_film_waarvan_overig_tekst] =>
+            [7_film_bezoekers_totaal] =>
+            [7_film_bezoekers_standplaats] =>
+            [7_film_bezoekers_brabant] =>
+            [7_film_bezoekers_nederland] =>
+            [7_film_bezoekers_buitenland] =>
+            [7_film_bezoekers_filmcircuit] =>
+            [7_film_bezoekers_festivals] =>
+            [7_film_bezoekers_scholen] =>
+            [7_film_bezoekers_overig] =>
             */
 
 	}
@@ -751,7 +751,7 @@ class cab_import
 	function show_import_export() {
 
 		global $wp_error;
-		//must check that the user has the required capability 
+		//must check that the user has the required capability
 	    if (!current_user_can('manage_options'))
 	    {
 	      wp_die( __('You do not have sufficient permissions to access this page.') );
@@ -762,8 +762,8 @@ class cab_import
 	    if( isset($_FILES['import_file']) ) {
 
 	    	$error_return = $this->import_organisation($_FILES['import_file']);
-	    	
-	    	
+
+
 
 	    	// Show feedback to the user
 			if (isset($error_return)) {
@@ -773,7 +773,7 @@ class cab_import
 					$error_list .= "<li>".$error."</li>";
 				}
 				$error_list .= "</ul>";
-			
+
 				echo '<div class="error"><h3>Some errors occured while importing:</h3>'.$error_list.'</div>';
 
 			} else {
@@ -785,8 +785,8 @@ class cab_import
 	 	if( isset($_FILES['import_data_file']) ) {
 
 	    	$error_return = $this->import_data($_FILES['import_data_file']);
-	    	
-	    	
+
+
 
 	    	// Show feedback to the user
 			if (isset($error_return)) {
@@ -796,7 +796,7 @@ class cab_import
 					$error_list .= "<li>".$error."</li>";
 				}
 				$error_list .= "</ul>";
-			
+
 				echo '<div class="error"><h3>Some errors occured while importing:</h3>'.$error_list.'</div>';
 
 			} else {
@@ -817,7 +817,23 @@ class cab_import
 
 	    echo "<h4>Vragenlijsten exporteren:</h4>";
 	    echo "<hr/>";
-	    echo "<p>Selecteer hier welke vragenlijst u wilt exporteren:</p>";
+      echo "<p>Selecteer hier welke vragenlijst u wilt exporteren:</p>";
+
+      echo '<input id="js-export-open" type="checkbox" name="Open" class="checkbox-primary" checked="checked"/>';
+      echo '<span> Open</span><br>';
+
+      echo '<input id="js-export-behandeling" type="checkbox" name="InBehandeling" class="checkbox-primary" checked="checked"/>';
+      echo '<span> In Behandeling</span><br>';
+
+      echo '<input id="js-export-afgerond" type="checkbox" name="Afgerond" class="checkbox-primary" checked="checked"/>';
+      echo '<span> Afgerond</span><br>';
+
+      echo '<input id="js-export-geblokkeerd" type="checkbox" name="Geblokkeerd" class="checkbox-primary" checked="checked"/>';
+      echo '<span> Geblokkeerd</span><br>';
+
+      echo '<br>';
+
+      echo "<p>Selecteer hier de betreffende periode:</p>";
 
 
 	    // get all available vragenlijsten
@@ -834,6 +850,7 @@ class cab_import
 
 	    echo '</select>&nbsp;&nbsp;&nbsp;';
 
+
 	   	echo '<input type="button" name="Exporteer" class="button-primary js-export-period" value="Exporteer data" />';
 
 
@@ -842,7 +859,7 @@ class cab_import
 
 	    // settings form
 	    ?>
-<!-- 
+<!--
 		<form name="form1" enctype="multipart/form-data" method="post" action="">
 
 			<p><label>Upload organisation *.csv</label>
@@ -868,7 +885,7 @@ class cab_import
 			</p>
 
 		</form> -->
-	
+
 		<?
 
 		}

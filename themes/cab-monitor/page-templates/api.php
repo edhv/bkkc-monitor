@@ -8,7 +8,7 @@ global $cab_functions;
 
 
 
-//function 
+//function
 
 switch ($_GET['action']) {
 
@@ -122,7 +122,7 @@ switch ($_GET['action']) {
 			// $ketens = 'a';
 			// }
 
-			
+
 		$cab_functions->show_array_as_table($discipline_array);
 		//print_r($discipline_array);
 
@@ -244,7 +244,7 @@ mysql_close($conn);
 								} else {
 									echo "acf already set";
 								}
-						
+
 								# code...
 							}
 						} else {
@@ -274,12 +274,12 @@ mysql_close($conn);
 	break;
 
 	case 'get_cab_organisations':
-header ("Content-Type:text/xml"); 
+header ("Content-Type:text/xml");
 		//print_r($cab_functions->get_all_bloementuin_organisations_list());
 		print_r($cab_functions->get_bloementuin_organisations_export( "xml"));
 	//print_r($cab_functions->get_organisation_data(527));
 
-			
+
 
 	break;
 
@@ -306,7 +306,7 @@ header ("Content-Type:text/xml");
 
 	break;
 
-	
+
 	case 'test_mail':
 
 		$cab_api->test_mail();
@@ -359,7 +359,7 @@ header ("Content-Type:text/xml");
 
 
 	break;
-	
+
 
 
 	case 'report_global_subsidy':
@@ -380,41 +380,41 @@ header ("Content-Type:text/xml");
 
 	case 'report_global_marketing':
 		$cab_api->report_global_marketing();
-	break;	
+	break;
 
 	case 'report_global_eigen_inkomsten':
 		$cab_api->report_global_eigen_inkomsten();
-	break;	
+	break;
 
 	case 'report_global_geldstromen':
 		$cab_api->report_global_geldstromen();
-	break;	
+	break;
 
 
 	case 'report_global_media':
 		$cab_api->report_global_media();
-	break;	
+	break;
 
 
 	case 'report_global_activiteiten':
 		$cab_api->report_global_activiteiten();
-	break;	
+	break;
 
 	case 'report_global_nevenactiviteiten':
 		$cab_api->report_global_nevenactiviteiten();
-	break;	
+	break;
 
 	case 'report_global_spreiding_activiteiten':
 		$cab_api->report_global_spreiding_activiteiten();
-	break;	
+	break;
 
 	case 'report_global_vertoningen':
 		$cab_api->report_global_vertoningen();
-	break;	
+	break;
 
 	case 'report_global_bezoekers':
 		$cab_api->report_global_bezoekers();
-	break;	
+	break;
 
 	case 'export_all_vragenlijst_organisations':
 		$cab_api->export_all_vragenlijst_organisations();
@@ -432,7 +432,7 @@ header ("Content-Type:text/xml");
 			// header( 'Content-Description: File Transfer' );
 
 			// header( 'Content-Disposition: attachment; filename='.$filename.'.csv' );
-			
+
 	  //   	echo chr(255) . chr(254) . $result;
 
 			// //
@@ -441,6 +441,12 @@ header ("Content-Type:text/xml");
 		echo $cab_api->export_all_organisations_csv($_GET['period']);
 		//die();
 	break;
+
+  case 'export_selected_organisations_csv':
+
+    echo $cab_api->export_selected_organisations_csv($_GET['period'], $_GET['open'], $_GET['inBehandeling'], $_GET['afgerond'], $_GET['geblokkeerd']);
+
+  break;
 
 	case 'organisations_by_type':
 		$cab_api->organisations_by_type();
@@ -468,7 +474,7 @@ header ("Content-Type:text/xml");
 
 
 	default:
-	
+
 	break;
 }
 

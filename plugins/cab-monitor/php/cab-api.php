@@ -2192,6 +2192,537 @@ user-cab_postadres-postcode
 
 
 
+  function export_selected_organisations_csv( $period, $doOpen, $doInBehandeling, $doAfgerond, $doGeblokkeerd ) {
+
+		$html = "";
+		$html_body = "";
+		$periods = $this->cab_functions->get_all_periods();
+
+		if (!isset($periods[$period])) {
+			return false;
+		}
+
+		$nullValue = '-1';
+		// header
+		header('Content-Type: text/csv; charset=utf-8');
+		header( 'Content-Description: File Transfer' );
+		header( 'Content-Disposition: attachment; filename=export-periode-'.$periods[$period].'_'.date('d-m-Y_Hi').'.csv' );
+
+
+
+
+		$type_array[1] = "Festivals";
+		$type_array[2] = "Visuele kunsten";
+		$type_array[3] = "Film(producenten)";
+		$type_array[4] = "Musea";
+		$type_array[5] = "Podia";
+		$type_array[6] = "Producenten podiumkunsten";
+
+
+		$export_structure = array(
+			"kernactiviteiten" => array(
+				array(
+					"gform_field_id" => 17,
+					"label" => "functie",
+					"database_field" => "functie"
+				),
+				array(
+					"gform_field_id" => 14,
+					"label" => "type",
+					"database_field" => "type"
+				),
+				array(
+					"gform_field_id" => 16,
+					"label" => "sector",
+					"database_field" => "sector"
+				)
+			),
+			"cab_subsidy" => array(
+				//'totaal',
+				'gemeente',
+				'gemeente_meerjarig',
+				'prov_nb',
+				'prov_nb_meerjarig',
+				'rijk',
+				'rijk_meerjarig',
+				'fonds_podiumkunsten',
+				'fonds_podiumkunsten_meerjarig',
+				'mondriaan_stichting',
+				'mondriaan_stichting_meerjarig',
+				'fonds_bkvb',
+				'fonds_bkvb_meerjarig',
+				'mediafonds',
+				'mediafonds_meerjarig',
+				'nl_filmfonds',
+				'nl_filmfonds_meerjarig',
+				'fonds_creatieve_industrie',
+				'fonds_creatieve_industrie_meerjarig',
+				'letterenfonds',
+				'letterenfonds_meerjarig',
+				'mondriaan_fonds',
+				'mondriaan_fonds_meerjarig',
+				'fonds_cultuurparticipatie',
+				'fonds_cultuurparticipatie_meerjarig',
+				'overig',
+				'overig_toelichting'
+				// "totaal",
+				// "gemeente",
+				// "prov_nb",
+				// "rijk",
+
+				// "gemeente_meerjarig",
+				// "prov_nb_meerjarig",
+				// "rijk_meerjarig",
+
+				// "fonds_podiumkunsten",
+				// "mondriaan_stichting",
+				// "fonds_bkvb",
+				// "mediafonds",
+				// "nl_filmfonds",
+				// "fonds_creatieve_industrie",
+				// "letterenfonds",
+				// "mondriaan_fonds",
+
+				// "fonds_podiumkunsten_meerjarig",
+				// "mondriaan_stichting_meerjarig",
+				// "mondriaan_fonds_meerjarig",
+				// "fonds_bkvb_meerjarig",
+				// "mediafonds_meerjarig",
+				// "nl_filmfonds_meerjarig",
+				// "fonds_creatieve_industrie_meerjarig",
+				// "letterenfonds_meerjarig",
+
+				// "overig"
+			),
+			"cab_eigen_inkomsten" => array (
+				"publieksinkomsten",
+				"sponsoring",
+				"private_fondsen",
+				"overig",
+				"totaal"
+			),
+			"cab_organisatie" => array(
+				//"werknemers",
+				//"freelancers",
+				//"vrijwilligers",
+				//"stagiaires",
+				"werknemers_fte",
+				"freelancers_fte",
+				"vrijwilligers",
+				"vrijwilligers_fte",
+				"lasten_vastcontract",
+				"lasten_tijdelijk",
+				"lasten_inhuur"
+				//"stagiaires_fte"
+			),
+			"cab_omzet" => array(
+				"totaal"
+			),
+			"cab_scholing" => array(
+				"uitgaven",
+				array(
+					"gform_field_id" => 260,
+					"label" => "onderwerpen",
+					"database_field" => "onderwerpen"
+				),
+				"onderwerpen_anders"
+			),
+			"cab_marketing" => array(
+				"uitgaven"
+			),
+			"cab_media" => array(
+				"aandacht",
+				"aandacht_twitter",
+				"aandacht_twitter_toelichting",
+				"aandacht_facebook",
+				"aandacht_facebook_toelichting"
+			),
+			"cab_activiteiten" => array(
+				"aantal",
+				"in_opdracht",
+				"eigen_werk",
+				"premieres",
+				"reprises"
+			),
+			"cab_nevenactiviteiten" => array(
+				"totaal",
+				"educatief",
+				"overig",
+				"overig_toelichting"
+			),
+			"cab_bezoekers" => array(
+				//"totaal",
+				"standplaats",
+				"provincie",
+				"nederland",
+				"buitenland",
+				"podium",
+				"festivals",
+				"scholen",
+				"overig",
+				"betaald",
+				"niet_betaald"
+			),
+			"cab_spreiding" => array(
+				"standplaats",
+				"provincie",
+				"nederland",
+				"buitenland",
+
+				"podium",
+				"festivals",
+				"scholen",
+				"overig"
+			),
+			"cab_vertoningen" => array(
+				"totaal",
+				"standplaats",
+				"provincie",
+				"nederland",
+				"buitenland",
+
+				"bioscoop",
+				"filmhuis",
+				"festival",
+				"omroep",
+				"internet",
+				"internet_toelichting"
+			)
+
+		);
+
+
+
+		$csv = '';
+
+
+		// compose header row
+		$header_row = array(
+			'id',
+			'Formulier status',
+			'Datum start',
+			'Datum eind',
+			'Naam',
+      'Directie',
+			'Type',
+			'Postadres straat',
+			'Postadres huisnummer',
+			'Postadres postcode',
+			'Postadres plaats',
+			'Bezoekadres straat',
+			'Bezoekadres huisnummer',
+			'Bezoekadres postcode',
+			'Bezoekadres plaats'
+		);
+
+		// form object for later reference
+		$form = GFAPI::get_form( 1 );
+		//print_r($form);
+		foreach ($export_structure as $table_name => $fields) {
+
+			array_push($header_row, $table_name);
+
+			// walk through the fields
+			foreach ($fields as $key => $field) {
+
+				// if this is a gform multiple choice
+				if (is_array($field) && isset($field['gform_field_id'])) {
+
+					// walk through all gform fields to find the right field
+					foreach ($form['fields'] as $formIndex => $gformField) {
+
+						if ($gformField->id === $field['gform_field_id']) {
+
+							// create the multiple choice columns
+							foreach ($gformField['choices'] as $choice) {
+								array_push($header_row, $field['label']."_".$choice['value']);
+							}
+
+						}
+					}
+				} else {
+					array_push($header_row, $field);
+				}
+			}
+		}
+
+
+		$csv .= $this->cab_functions->convertArrayToCsvRow($header_row);
+		// $html = "
+		// 		<table>
+		// 		<thead>
+		// 		<tr><th>id</th><th>name</th><th>type</th><th>Bezoekadres plaats</th><th>Postadres plaats</th>";
+
+		// 				foreach ($export_structure as $table_name => $fields) {
+		// 						$html .= "<th></th><th>".$table_name."</th>";
+		// 					foreach ($fields as $field) {
+		// 						$html .= "<th>".$field."</th>";
+		// 					}
+		// 				}
+
+
+		// $html .= "</tr>
+		// 		</thead>
+		// 		<tbody>";
+
+    // NEWLY ADDED FILTER
+		$organisations = array();
+		$organisation_list = $this->cab_functions->get_all_exportable_organisations($period);
+
+		foreach ($organisation_list as $organisation) {
+      $organisation_id = $organisation->ID;
+
+      $form_data = $this->cab_functions->form_activity_get_data($organisation_id, $period);
+      $form_status = 0;
+
+      if ($form_data['form_finish_date']) {
+        // Verzonden maar niet gelocked door BKKC
+        $form_status = 2;
+        if ($form_data['is_finished']) {
+          // Gelocked door BKKC
+          $form_status = 3;
+        }
+      } else if ($form_data['last_access_date']) {
+				$form_status = 1;
+			}
+
+      $doExport = false;
+
+      switch ($form_status) {
+        case 0:
+          if ($doOpen === 'true') {
+            $doExport = true;
+          }
+          break;
+        case 1:
+          if ($doInBehandeling === 'true') {
+            $doExport = true;
+          }
+          break;
+        case 2:
+          if ($doAfgerond === 'true') {
+            $doExport = true;
+          }
+          break;
+        case 3:
+          if ($doGeblokkeerd === 'true') {
+            $doExport = true;
+          }
+          break;
+        default:
+          $doExport = false;
+          break;
+      }
+
+      if ($doExport) {
+        array_push($organisations, $organisation->ID);
+      }
+		}
+
+		//$organisation_list = $this->export_organisations;
+		//$organisation_list = $this->cab_functions->combine_organisation_lists($organisation_list,$this->export_organisations_merge_kunstpodium);
+		//$organisation_list = $this->cab_functions->combine_organisation_lists($organisation_list,$this->export_organisations_merge_kw14);
+		//$organisation_list = $this->cab_functions->combine_organisation_lists($organisation_list,$this->export_organisations_merge_plaza_futura);
+
+
+		//if (!isset($organisation_list[ $periods[$period] ]) {
+		//	return false;
+		//}
+
+		//$organisations = $this->cab_functions->organisation_list_to_id_list($organisation_list[ $periods[$period] ], "all");
+		//print_r($organisations);
+		//$organisations = $this->cab_functions->convert_organisation_list_to_id_list( $this->cab_functions->get_all_vragenlijst_organisations_list() );
+		$i = 0;
+
+		foreach ($organisations as $organisation_id) {
+
+			// get organisation data
+			$organisation_data = $this->cab_functions->get_organisation_data($organisation_id);
+
+			$form_data = $this->cab_functions->form_activity_get_data($organisation_id, $period);
+
+			//print_r($organisation_data);
+			// id of the owning user
+			$owner_id = $this->cab_functions->get_user_id_by_organisation_id($organisation_id);
+			// get organisation meta
+			$organisation_meta = get_user_meta($owner_id);
+
+			// organisation type
+			$field = get_field_object('field_51e3f440c250c');
+			$field_choices = $field['choices'];
+
+			$categories = get_field('vragenlijst_categorie',$organisation_id);
+			$categories_value = "";
+
+			foreach ($categories as $key => $value) {
+				if (!isset($field_choices[$value])) {
+					continue;
+				}
+				$categories_value .= " ".$field_choices[$value].",";
+			}
+			$categories_value = rtrim($categories_value, ",");
+
+
+			// Form status
+			$formStatus = 'open';
+
+			// if ($form_data['is_finished'] && !$form_data['entry_id']) {
+			// 	$formStatus = 'geblokkeerd';
+			// } else if ($form_data['is_finished']) {
+			// 	$formStatus = 'afgerond';
+			// } else if ($form_data['last_access_date']) {
+			// 	$formStatus = 'in_behandeling';
+			// }
+
+      if ($form_data['form_finish_date']) {
+        // Verzonden maar niet gelocked door BKKC
+        $formStatus = 'afgerond';
+        if ($form_data['is_finished']) {
+          // Gelocked door BKKC
+          $formStatus = 'geblokkeerd';
+        }
+      } else if ($form_data['last_access_date']) {
+				$formStatus = 'in_behandeling';
+			}
+
+
+
+
+			// build up row
+			$row = array(
+				$organisation_data['general']['id'],
+				$formStatus,
+				$organisation_data['general']['start_date'],
+				$organisation_data['general']['end_date'],
+				$organisation_data['general']['name'],
+        $organisation_meta['user-cab_organisatie-directeur-naam'][0],
+				$categories_value,
+				$organisation_meta['user-cab_postadres-straat'][0],
+				$organisation_meta['user-cab_postadres-huisnummer'][0],
+				$organisation_meta['user-cab_postadres-postcode'][0],
+				$organisation_meta['user-cab_postadres-plaats'][0],
+				$organisation_meta['user-cab_bezoekadres-straat'][0],
+				$organisation_meta['user-cab_bezoekadres-huisnummer'][0],
+				$organisation_meta['user-cab_bezoekadres-postcode'][0],
+				$organisation_meta['user-cab_bezoekadres-plaats'][0]
+			);
+
+
+			foreach ($export_structure as $table_name => $fields) {
+				array_push($row, '');
+				//print_r($fields);
+				foreach ($fields as $key => $field) {
+					$value = $nullValue;
+					$choicesData = array();
+
+						// if this is a gform multiple choice
+						if (is_array($field) && isset($field['gform_field_id'])) {							//print_r($field);
+							// // walk through all gform fields to find the right field
+							foreach ($form['fields'] as $formIndex => $gformField) {
+									//echo $gformField->id." - ".$field."<br/>";
+
+								if ($gformField->id === $field['gform_field_id']) {
+
+									//if (isset($organisation_data['periodical'][$period]['data'][$table_name][0][$field['database_field']])) {
+									if (isset($organisation_data['periodical'][$period]['data'][$table_name])) {
+
+										$tableData = $organisation_data['periodical'][$period]['data'][$table_name];
+
+										// two ways to access data based on structure
+										if (isset($tableData[0][$field['database_field']])) {
+											$choicesData = explode(",", $organisation_data['periodical'][$period]['data'][$table_name][0][$field['database_field']]);
+										} else if (isset($tableData[$field['database_field']])) {
+											//print_r(isset($tableData[$field['database_field']]));
+											$choicesData = $organisation_data['periodical'][$period]['data'][$table_name][$field['database_field']];
+										}
+
+										//echo $organisation_id." - ".$key."<br/>";
+
+									}
+
+									// create the multiple choice columns
+									foreach ($gformField['choices'] as $choice) {
+
+										// check if the choice was selected by the organisation
+										if (in_array($choice['value'],$choicesData)) {
+											$value = 1;
+										} else {
+											$value = 0;
+										}
+
+										array_push($row, $value);
+
+
+									// 	array_push($header_row, $field['label']."_".$choice['value']);
+									}
+
+
+								}
+							}
+
+						} else {
+
+							if (isset($organisation_data['periodical'][$period]['data'][$table_name][0][$field])) {
+								$value = $organisation_data['periodical'][$period]['data'][$table_name][0][$field];
+							}
+
+							if ($value == 'null' || $value == 'NULL') {
+								$value = $nullValue;
+							}
+
+							array_push($row, $value);
+
+						}
+
+
+
+
+					//print_r( $field );
+		//			if ($field == 'gform_multiple_choice') {
+						//$value = 'KRA';
+					// } else {
+					// 	if (isset($organisation_data['periodical'][$period]['data'][$table_name][0][$field])) {
+					// 		$value = $organisation_data['periodical'][$period]['data'][$table_name][0][$field];
+					// 	}
+
+					// 	if ($value == 'null' || $value == 'NULL') {
+					// 		$value = $nullValue;
+					// 	}
+
+					// }
+
+
+				}
+
+			}
+
+			$csv .= $this->cab_functions->convertArrayToCsvRow($row);
+
+			$i+=1;
+		}
+
+
+
+
+
+
+		//$html .= $html_body;
+
+		//$html .= "</tbody>
+		//</table>";
+
+		//echo $html;
+
+			// // Setup csv file
+
+			echo $csv;
+	    	//echo chr(255) . chr(254) . $csv;
+
+
+	}
+
+
+
 	function export_all_organisations( $period ) {
 
 		$html = "";
