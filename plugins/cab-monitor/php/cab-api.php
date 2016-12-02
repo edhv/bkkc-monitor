@@ -2318,7 +2318,7 @@ user-cab_postadres-postcode
 				"sponsoring",
 				"private_fondsen",
 				"overig",
-				"totaal"
+				"totaal_eigen_inkomsten"
 			),
 			"cab_organisatie" => array(
 				//"werknemers",
@@ -2335,7 +2335,7 @@ user-cab_postadres-postcode
 				//"stagiaires_fte"
 			),
 			"cab_omzet" => array(
-				"totaal"
+				"totaal_omzet"
 			),
 			"cab_scholing" => array(
 				"uitgaven",
@@ -2364,7 +2364,7 @@ user-cab_postadres-postcode
 				"reprises"
 			),
 			"cab_nevenactiviteiten" => array(
-				"totaal",
+				"totaal_nevenactiviteiten",
 				"educatief",
 				"overig",
 				"overig_toelichting"
@@ -2394,7 +2394,7 @@ user-cab_postadres-postcode
 				"overig"
 			),
 			"cab_vertoningen" => array(
-				"totaal",
+				"totaal_vertoningen",
 				"standplaats",
 				"provincie",
 				"nederland",
