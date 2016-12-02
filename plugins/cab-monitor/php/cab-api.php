@@ -2139,6 +2139,25 @@ user-cab_postadres-postcode
 								$value = $nullValue;
 							}
 
+              if ($field === 'aandacht') {
+                //
+                switch ($value) {
+                  case 1:
+                    $value = '0 - 25';
+                    break;
+                  case 2:
+                    $value = '26 - 50';
+                    break;
+                  case 3:
+                    $value = 'Meer dan 50';
+                    break;
+                  default:
+                    // nothing
+                    break;
+                }
+
+              }
+
 							array_push($row, $value);
 
 						}
@@ -2670,7 +2689,24 @@ user-cab_postadres-postcode
 								$value = $nullValue;
 							}
 
-							array_push($row, $value);
+              if ($field === 'aandacht') {
+                //
+                switch ($value) {
+                  case 1:
+                    $value = '0 - 25';
+                    break;
+                  case 2:
+                    $value = '26 - 50';
+                    break;
+                  case 3:
+                    $value = 'Meer dan 50';
+                    break;
+                  default:
+                    // nothing
+                    break;
+                }
+
+              }
 
 						}
 
