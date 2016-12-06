@@ -1,9 +1,9 @@
 <?php
 class cab_form
 {
-	
+
 	var $settings;
-	
+
 	function __construct()
 	{
 		global $cab_functions;
@@ -64,7 +64,7 @@ class cab_form
 
 		$this->_subsidy_array = array(
 		    '_id' => array ('gform-field-id' => 49, 'gform-populate-slug' => 'subsidie_row-id'),
-		    // 'totaal' => array ('gform-field-id' => 43, 'gform-populate-slug' => 'subsidie_totaal'),
+		    'totaal' => array ('gform-field-id' => 43, 'gform-populate-slug' => 'subsidie_totaal'),
 		    // 'totaal_meerjarig' => array ('gform-field-id' => 252, 'gform-populate-slug' => 'subsidie_totaal_meerjarig'),
 
 		    'gemeente' => array ('gform-field-id' => 10, 'gform-populate-slug' => 'subsidie_gemeente'),
@@ -116,7 +116,7 @@ class cab_form
 		    'sponsoring' => array ('gform-field-id' => 52, 'gform-populate-slug' => 'eigen-inkomsten_sponsoring'),
 		    'private_fondsen' => array ('gform-field-id' => 53, 'gform-populate-slug' => 'eigen-inkomsten_private-fondsen'),
 		    'overig' => array ('gform-field-id' => 54, 'gform-populate-slug' => 'eigen-inkomsten_overig')
-		    ); 
+		    );
 
 		$this->_organisatie_array = array(
 		    '_id' => array ('gform-field-id' => 57, 'gform-populate-slug' => 'organisatie_row-id'),
@@ -128,16 +128,17 @@ class cab_form
 		    'vrijwilligers_fte' => array ('gform-field-id' => 259, 'gform-populate-slug' => 'organisatie_vrijwilligers_fte', 'format'=>'decimal'),
 		    'stagiaires' => array ('gform-field-id' => 61, 'gform-populate-slug' => 'organisatie_stagiaires'),
 		    'stagiaires_fte' => array ('gform-field-id' => 258, 'gform-populate-slug' => 'organisatie_stagiaires_fte', 'format'=>'decimal'),
+        'totaal_fte' => array ('gform-field-id' => 274, 'gform-populate-slug' => 'organisatie_fte_totaal'),
 		    'lasten_vastcontract' => array ('gform-field-id' => 277, 'gform-populate-slug' => 'organisatie_personeelslasten_vastcontract'),
 		    'lasten_tijdelijk' => array ('gform-field-id' => 278, 'gform-populate-slug' => 'organisatie_personeelslasten_tijdelijk'),
-		    'lasten_inhuur' => array ('gform-field-id' => 279, 'gform-populate-slug' => 'organisatie_personeelslasten_inhuur')
-
-		    ); 
+		    'lasten_inhuur' => array ('gform-field-id' => 279, 'gform-populate-slug' => 'organisatie_personeelslasten_inhuur'),
+        'totaal' => array ('gform-field-id' => 281, 'gform-populate-slug' => 'organisatie_personeelskosten_totaal')
+		    );
 
 		$this->_omzet_array = array(
 		    '_id' => array ('gform-field-id' => 63, 'gform-populate-slug' => 'omzet_row-id'),
 		    'totaal' => array ('gform-field-id' => 51, 'gform-populate-slug' => 'omzet_totaal')
-		    ); 
+		    );
 
 		$this->_scholing_array = array(
 		    '_id' => array ('gform-field-id' => 67, 'gform-populate-slug' => 'scholing_row-id'),
@@ -145,12 +146,12 @@ class cab_form
 		    'onderwerpen' => array ('gform-field-id' => 260, 'gform-populate-slug' => 'scholing_onderwerpen'),
 		    'onderwerpen_anders' => array ('gform-field-id' => 261, 'gform-populate-slug' => 'scholing_onderwerpen_anders')
 
-			); 
+			);
 
 		$this->_marketing_array = array(
 		    '_id' => array ('gform-field-id' => 69, 'gform-populate-slug' => 'marketing_row-id'),
 		    'uitgaven' => array ('gform-field-id' => 70, 'gform-populate-slug' => 'marketing_uitgaven')
-		    ); 
+		    );
 
 		$this->_media_array = array(
 		    '_id' => array ('gform-field-id' => 73, 'gform-populate-slug' => 'media_row-id'),
@@ -159,7 +160,7 @@ class cab_form
 		    'aandacht_twitter_toelichting' => array ('gform-field-id' => 265, 'gform-populate-slug' => 'media_aandacht_twitter_toelichting'),
 		    'aandacht_facebook' => array ('gform-field-id' => 268, 'gform-populate-slug' => 'media_aandacht_facebook'),
 		    'aandacht_facebook_toelichting' => array ('gform-field-id' => 267, 'gform-populate-slug' => 'media_aandacht_facebook_toelichting')
-		    ); 
+		    );
 
 
 
@@ -191,7 +192,7 @@ class cab_form
 				"id" => array ('gform-field-id' => 83, 'gform-populate-slug' => 'aanv-1-bezoekers_row-id'),
 				"aanv_vragenlijst_id" => 1,
 				"data" => array(
-				    //'totaal' => array ('gform-field-id' => 84, 'gform-populate-slug' => 'aanv-1-bezoekers_totaal'),
+				    'totaal' => array ('gform-field-id' => 84, 'gform-populate-slug' => 'aanv-1-bezoekers_totaal'),
 				    'standplaats' => array ('gform-field-id' => 85, 'gform-populate-slug' => 'aanv-1-bezoekers_standplaats'),
 				    'provincie' => array ('gform-field-id' => 86, 'gform-populate-slug' => 'aanv-1-bezoekers_provincie'),
 				    'nederland' => array ('gform-field-id' => 87, 'gform-populate-slug' => 'aanv-1-bezoekers_nederland'),
@@ -230,14 +231,14 @@ class cab_form
 				"id" => array ('gform-field-id' => 98, 'gform-populate-slug' => 'aanv-2-bezoekers_row-id'),
 				"aanv_vragenlijst_id" => 2,
 				"data" => array(
-				    //'totaal' => array ('gform-field-id' => 99, 'gform-populate-slug' => 'aanv-2-bezoekers_totaal'),
+				    'totaal' => array ('gform-field-id' => 99, 'gform-populate-slug' => 'aanv-2-bezoekers_totaal'),
 				    'standplaats' => array ('gform-field-id' => 100, 'gform-populate-slug' => 'aanv-2-bezoekers_standplaats'),
 				    'provincie' => array ('gform-field-id' => 101, 'gform-populate-slug' => 'aanv-2-bezoekers_provincie'),
 				    'nederland' => array ('gform-field-id' => 102, 'gform-populate-slug' => 'aanv-2-bezoekers_nederland'),
 				    'buitenland' => array ('gform-field-id' => 103, 'gform-populate-slug' => 'aanv-2-bezoekers_buitenland'),
 				    'betaald' => array ('gform-field-id' => 286, 'gform-populate-slug' => 'aanv-2-bezoekers_betaald'),
 				    'niet_betaald' => array ('gform-field-id' => 285, 'gform-populate-slug' => 'aanv-2-bezoekers_nietbetaald')
-			
+
 				    )
 			)
 
@@ -274,7 +275,7 @@ class cab_form
 				    'internet' => array ('gform-field-id' => 118, 'gform-populate-slug' => 'aanv-3-vertoningen_internet'),
 				    'internet_toelichting' => array ('gform-field-id' => 196, 'gform-populate-slug' => 'aanv-3-vertoningen_internet-toelichting')
 
-			
+
 				    )
 			)
 
@@ -308,14 +309,14 @@ class cab_form
 				"id" => array ('gform-field-id' => 128, 'gform-populate-slug' => 'aanv-4-bezoekers_row-id'),
 				"aanv_vragenlijst_id" => 4,
 				"data" => array(
-				    //'totaal' => array ('gform-field-id' => 129, 'gform-populate-slug' => 'aanv-4-bezoekers_totaal'),
+				    'totaal' => array ('gform-field-id' => 129, 'gform-populate-slug' => 'aanv-4-bezoekers_totaal'),
 				    'standplaats' => array ('gform-field-id' => 130, 'gform-populate-slug' => 'aanv-4-bezoekers_standplaats'),
 				    'provincie' => array ('gform-field-id' => 131, 'gform-populate-slug' => 'aanv-4-bezoekers_provincie'),
 				    'nederland' => array ('gform-field-id' => 132, 'gform-populate-slug' => 'aanv-4-bezoekers_nederland'),
 				    'buitenland' => array ('gform-field-id' => 133, 'gform-populate-slug' => 'aanv-4-bezoekers_buitenland'),
 				    'betaald' => array ('gform-field-id' => 129, 'gform-populate-slug' => 'aanv-4-bezoekers_betaald'),
 				    'niet_betaald' => array ('gform-field-id' => 289, 'gform-populate-slug' => 'aanv-4-bezoekers_nietbetaald')
-			
+
 				    )
 			)
 
@@ -349,14 +350,14 @@ class cab_form
 				"id" => array ('gform-field-id' => 143, 'gform-populate-slug' => 'aanv-5-bezoekers_row-id'),
 				"aanv_vragenlijst_id" => 5,
 				"data" => array(
-				    //'totaal' => array ('gform-field-id' => 144, 'gform-populate-slug' => 'aanv-5-bezoekers_totaal'),
+				    'totaal' => array ('gform-field-id' => 144, 'gform-populate-slug' => 'aanv-5-bezoekers_totaal'),
 				    'standplaats' => array ('gform-field-id' => 145, 'gform-populate-slug' => 'aanv-5-bezoekers_standplaats'),
 				    'provincie' => array ('gform-field-id' => 146, 'gform-populate-slug' => 'aanv-5-bezoekers_provincie'),
 				    'nederland' => array ('gform-field-id' => 147, 'gform-populate-slug' => 'aanv-5-bezoekers_nederland'),
 				    'buitenland' => array ('gform-field-id' => 148, 'gform-populate-slug' => 'aanv-5-bezoekers_buitenland'),
 				    'betaald' => array ('gform-field-id' => 290, 'gform-populate-slug' => 'aanv-5-bezoekers_betaald'),
 				    'niet_betaald' => array ('gform-field-id' => 291, 'gform-populate-slug' => 'aanv-5-bezoekers_nietbetaald')
-			
+
 				    )
 			)
 
@@ -410,7 +411,7 @@ class cab_form
 				"id" => array ('gform-field-id' => 168, 'gform-populate-slug' => 'aanv-6-bezoekers_row-id'),
 				"aanv_vragenlijst_id" => 6,
 				"data" => array(
-				   // 'totaal' => array ('gform-field-id' => 169, 'gform-populate-slug' => 'aanv-6-bezoekers_totaal'),
+				    'totaal' => array ('gform-field-id' => 169, 'gform-populate-slug' => 'aanv-6-bezoekers_totaal'),
 				    'standplaats' => array ('gform-field-id' => 170, 'gform-populate-slug' => 'aanv-6-bezoekers_standplaats'),
 				    'provincie' => array ('gform-field-id' => 171, 'gform-populate-slug' => 'aanv-6-bezoekers_provincie'),
 				    'nederland' => array ('gform-field-id' => 172, 'gform-populate-slug' => 'aanv-6-bezoekers_nederland'),
@@ -459,7 +460,7 @@ class cab_form
 		// 		    'provincie' => array ('gform-field-id' => 225, 'gform-populate-slug' => 'aanv-7-bezoekers_provincie'),
 		// 		    'nederland' => array ('gform-field-id' => 226, 'gform-populate-slug' => 'aanv-7-bezoekers_nederland'),
 		// 		    'buitenland' => array ('gform-field-id' => 227, 'gform-populate-slug' => 'aanv-7-bezoekers_buitenland')
-			
+
 		// 		    )
 		// 	)
 
@@ -486,7 +487,7 @@ class cab_form
 		);
 
 
-		
+
 
 
         // Gravity forms actions
@@ -498,7 +499,7 @@ class cab_form
 		add_filter("gform_init_scripts_footer", array($this, 'init_scripts'));
 
 
-		
+
 	}
 
 	function init() {
@@ -578,7 +579,7 @@ class cab_form
 		    $this->update_settings();
 
 		    // remove the organisation cache
-		    delete_transient( 'organisation_'.$this->settings['organisation_id'] ); 
+		    delete_transient( 'organisation_'.$this->settings['organisation_id'] );
 
 
 
@@ -591,7 +592,7 @@ class cab_form
 		    if ($form_activity['is_finished']) {
 		    	return false;
 		    }
-		
+
 		    //print_r($entry);
 
 
@@ -658,7 +659,7 @@ class cab_form
 			$columns['uitgaven'] = $entry[$structure_array['uitgaven']['gform-field-id']];
 			$columns['onderwerpen'] = implode(", ", $this->cab_functions->get_gform_checkbox_values(260, $entry));
 			$columns['onderwerpen_anders'] = $entry[$structure_array['onderwerpen_anders']['gform-field-id']];
-			 
+
 
 			// If there is already a row in the database update, else add new
 		    if ($row_id) {
@@ -666,7 +667,7 @@ class cab_form
 		       $wpdb->update( $wpdb->prefix . $table, $columns, array( 'id' => $row_id ));
 		    } else {
 
-		        $this->cab_functions->add_data($table, $this->settings['organisation_id'], $this->settings['data_period'],$columns); 
+		        $this->cab_functions->add_data($table, $this->settings['organisation_id'], $this->settings['data_period'],$columns);
 		    }
 
 			//print_r($checkbox_onderwerpen);
@@ -675,7 +676,7 @@ class cab_form
 
 			// // Add new scholing
 			// foreach ($checkbox_values as $checkbox_key => $checkbox_value) {
-			// 	$this->cab_functions->add_data($value['table-name'], $this->settings['organisation_id'], $this->settings['data_period'],array($key => $checkbox_value)); 
+			// 	$this->cab_functions->add_data($value['table-name'], $this->settings['organisation_id'], $this->settings['data_period'],array($key => $checkbox_value));
 			// }
 		//}
 //
@@ -696,13 +697,13 @@ class cab_form
 		foreach ($structure_array as $key => $value) {
 
 			$checkbox_values = $this->cab_functions->get_gform_checkbox_values($value['gform-field-id'], $entry);
-				
+
 			// Delete the current kernactiviteiten
 			$this->cab_functions->delete_row($value['table-name'], array('period_id' => $this->settings['data_period'], 'organisation_id' => $this->settings['organisation_id']));
 
 			// Add new kernactiviteiten
 			foreach ($checkbox_values as $checkbox_key => $checkbox_value) {
-				$this->cab_functions->add_data($value['table-name'], $this->settings['organisation_id'], $this->settings['data_period'],array($key => $checkbox_value)); 
+				$this->cab_functions->add_data($value['table-name'], $this->settings['organisation_id'], $this->settings['data_period'],array($key => $checkbox_value));
 			}
 		}
 		//die();
@@ -712,8 +713,8 @@ class cab_form
 		global $wpdb;
 
 		// Add a filter to replace the 'NULL' string with NULL because wordpres doesn't support null
-		add_filter( 'query', 'wp_db_null_value' );			
-	
+		add_filter( 'query', 'wp_db_null_value' );
+
 
 		//print_r($structure_array);
 		foreach ($structure_array as $key => $structure) {
@@ -723,7 +724,7 @@ class cab_form
 			$aanv_vragenlijst_id = $structure['aanv_vragenlijst_id'];
 
 			$columns = $this->cab_functions->convert_entry_to_db($structure['data'], $entry_array);
-		
+
 
 			// if all the columns and the row_id is undefined, dont save it to the database
 			if(!$row_id && !array_filter($columns)) {
@@ -739,7 +740,7 @@ class cab_form
 			       $wpdb->update( $wpdb->prefix . $table, $columns, array( 'id' => $row_id ));
 			    } else {
 
-			        $this->cab_functions->add_data($table, $this->settings['organisation_id'], $this->settings['data_period'],$columns); 
+			        $this->cab_functions->add_data($table, $this->settings['organisation_id'], $this->settings['data_period'],$columns);
 			    }
 			}
 		}
@@ -752,7 +753,7 @@ class cab_form
 	    global $wpdb;
 
 	    // Add a filter to replace the 'NULL' string with NULL because wordpres doesn't support null
-	    add_filter( 'query', 'wp_db_null_value' );	
+	    add_filter( 'query', 'wp_db_null_value' );
 
 
 	    $row_id = $this->cab_functions->get_entry_row_id($entry_array, $structure_array);
@@ -763,16 +764,16 @@ class cab_form
 
 		// If there is already a row in the database update, else add new
 	    if ($this->cab_functions->entry_has_row_id($entry_array, $structure_array)) {
-	    
+
 			// Store in the database
 	        $wpdb->update( $wpdb->prefix . $table, $columns, array( 'id' => $row_id ));
 	    } else {
-	    	
+
 	    	// Check if the fields are set, if not, don't add to the database
 	    	if (!array_filter($columns)) {
 
 	    	} else {
-	       	 	$this->cab_functions->add_data($table, $this->settings['organisation_id'], $this->settings['data_period'],$columns); 
+	       	 	$this->cab_functions->add_data($table, $this->settings['organisation_id'], $this->settings['data_period'],$columns);
 	    	}
 	    }
 
@@ -797,8 +798,8 @@ class cab_form
 	//     $columns = array_merge($columns, array("organisation_id"=>$organisation_id,"period_id"=>$period));
 
 
-	//     $wpdb->insert( 
-	//         $wpdb->prefix.$table, 
+	//     $wpdb->insert(
+	//         $wpdb->prefix.$table,
 	//         $columns
 	//         );
 
@@ -811,8 +812,8 @@ class cab_form
 //     $columns = array_merge($columns, array("organisation_id"=>$organisation_id,"period_id"=>$period));
 
 
-//     $wpdb->insert( 
-//         $wpdb->prefix.'cab_omzet', 
+//     $wpdb->insert(
+//         $wpdb->prefix.'cab_omzet',
 //         $columns
 //         );
 // }
@@ -838,10 +839,10 @@ class cab_form
 	    foreach ($this->_user_meta_array as $key => $value) {
 	    	if (isset($user_meta[$key][0])) {
 	        add_filter(
-	            'gform_field_value_'.$value['gform-populate-slug'], 
+	            'gform_field_value_'.$value['gform-populate-slug'],
 	            create_function("", 'return "'.$user_meta[$key][0].'";' )
-	            );  
-	        }        
+	            );
+	        }
 	    }
 
 
@@ -850,13 +851,13 @@ class cab_form
 
 	    	if ($user_meta['user-cab_organisatie-directeur-functie'][0] != '') {
 			add_filter(
-	            'gform_field_value_directeur_functie_anders', 
+	            'gform_field_value_directeur_functie_anders',
 	            create_function("", 'return 1;' )
-	            );  
+	            );
 
 			}
-		
-	    }  
+
+	    }
 
 
 	    // If bezoek adres is filled, show it
@@ -864,14 +865,14 @@ class cab_form
 
 	    	if ($user_meta['user-cab_bezoekadres-straat'][0] != '') {
 			add_filter(
-	            'gform_field_value_bezoekadres_anders', 
+	            'gform_field_value_bezoekadres_anders',
 	            create_function("", 'return 1;' )
-	            );  
+	            );
 
 			}
-		
-	    }        
-	    
+
+	    }
+
 
 
 	}
@@ -891,7 +892,7 @@ class cab_form
 
 		$form_data = $this->cab_functions->get_gform_form_data(1);
 
-		
+
 
 		$form_data_fields = $form_data['fields'];
 		//print_r($form_data_fields);
@@ -903,7 +904,7 @@ class cab_form
 		$prev_id = 0;
 		$field_group_array = array();
 		foreach ($autosave as $key => $field) {
-		// 	# code...	
+		// 	# code...
 
 		 	if (array_key_exists('name',$field)) {
 		 		if (substr($field['name'], 0, 6) == "input_") {
@@ -933,18 +934,18 @@ class cab_form
 		 			if ($field_id != $prev_id && !$dot_position) {
 
 		 				$gform_field = $this->search_array($form_data_fields, $field_id);
-		 				
+
 		 				add_filter(
 		 					'gform_field_value_'.$gform_field['inputName'],
 		 					create_function("", 'return "'.$field['value'].'";' )
-		 				);  
+		 				);
 		 				//echo $field_id." : ".$gform_field['inputName']." : ".$field['value']."<br/>";
 
 		 			}
 
 
 		 			$prev_id = $field_id;
-		 	
+
 
 		 		}
 		 	}
@@ -954,15 +955,15 @@ class cab_form
 		// Walk through the checkbox fields
 		foreach ($field_group_array as $key => $fields) {
 			$gform_field = $this->search_array($form_data_fields, $key);
- 
+
 					add_filter(
 		           'gform_field_value_'.$gform_field['inputName'],
 		            create_function("", 'return "'.implode(",", $fields).'";' )
-		            ); 
+		            );
 
-			 
+
 		}
-		
+
 
 	}
 
@@ -1027,13 +1028,13 @@ class cab_form
 	        	add_filter(
 	            	'gform_field_value_'.$value['gform-populate-slug'],
 	            	create_function("", 'return "'.$data_array[$key].'";' )
-	            );   
+	            );
 
 	        	// Add id to the hidden field
 	    		add_filter(
-	    			'gform_field_value_'.$structure['id']['gform-populate-slug'], 
+	    			'gform_field_value_'.$structure['id']['gform-populate-slug'],
 	    			create_function("", 'return "'.$data_array['id'].'";' )
-	    		);      
+	    		);
 	    	}
 
 	    }
@@ -1050,12 +1051,12 @@ class cab_form
 			$kernactiviteiten_data = $this->cab_functions->get_habtm_table_data($value['table-name'],$key,$this->settings['organisation_id'], $this->settings['data_period']);
 
 			if ($kernactiviteiten_data['values']) {
-			
+
 				// Set the filter to prepopulate the values
 				add_filter(
 		            'gform_field_value_'.$value['gform-populate-slug'],
 		            create_function("", 'return "'.implode(",", $kernactiviteiten_data['values']).'";' )
-		            ); 
+		            );
 			}
 		}
 
@@ -1066,7 +1067,7 @@ class cab_form
 	function populate_auto($structure_array, $data_array, $settings) {
 	// Prepare the array for use in the foreach
 	    $input_array = $this->cab_functions->system_split_array($structure_array);
-	
+
 
 	// Pre populate the fields
 	    foreach ($input_array['data'] as $key => $value) {
@@ -1080,17 +1081,17 @@ class cab_form
 	    		if ($structure_array[$key]['format'] == "decimal" ) {
 	    			$fieldValue = number_format( $fieldValue, 2 , "," , "."  );
 	    		}
-	    		
-	    	} 
+
+	    	}
 
 	        add_filter(
 	            'gform_field_value_'.$value['gform-populate-slug'],
 	            create_function("", 'return "'.$fieldValue.'";' )
-	            );          
+	            );
 	    }
 
 	// Add id to the hidden field
-	    add_filter('gform_field_value_'.$input_array['system']['_id']['gform-populate-slug'], create_function("", 'return "'.$data_array['id'].'";' )); 
+	    add_filter('gform_field_value_'.$input_array['system']['_id']['gform-populate-slug'], create_function("", 'return "'.$data_array['id'].'";' ));
 
 
 	}
@@ -1126,7 +1127,7 @@ class cab_form
 
 			// Dissect the {2:text}
 			preg_match_all("/\{(.*):(.*)\}/s", $match_value[0], $sub_matches, PREG_SET_ORDER);
-			$result_str = $sub_matches[0][2]; 
+			$result_str = $sub_matches[0][2];
 
 		}
 
@@ -1152,7 +1153,7 @@ class cab_form
 
 			$form['fields'][$key]['content'] = $this->replace_period_tags( $form_section['content'], $period_id );
 
-			
+
 
 			// find fields that have options
 			if ($form_section['choices']) {
@@ -1184,7 +1185,7 @@ class cab_form
 				// 	// Dissect the {2:text}
 				// 	preg_match_all("/\{(.*):(.*)\}/s", $match_value[0], $sub_matches, PREG_SET_ORDER);
 				// 	$result_str = $sub_matches[0][2];
-				// 	$form['fields'][$key]['description'] = $result_str; 
+				// 	$form['fields'][$key]['description'] = $result_str;
 
 				// }
 
@@ -1206,61 +1207,61 @@ class cab_form
 		   [201] => Array
                 (
                     [adminLabel] => vragen-opmerkingen
-                    [adminOnly] => 
+                    [adminOnly] =>
                     [allowsPrepopulate] => 1
-                    [defaultValue] => 
-                    [description] => 
-                    [content] => 
-                    [cssClass] => 
-                    [errorMessage] => 
+                    [defaultValue] =>
+                    [description] =>
+                    [content] =>
+                    [cssClass] =>
+                    [errorMessage] =>
                     [id] => 187
                     [inputName] => vragen-opmerkingen
-                    [isRequired] => 
+                    [isRequired] =>
                     [label] => Vragen / Opmerkingen
-                    [noDuplicates] => 
+                    [noDuplicates] =>
                     [size] => medium
                     [type] => textarea
-                    [postCustomFieldName] => 
-                    [displayAllCategories] => 
-                    [displayCaption] => 
-                    [displayDescription] => 
-                    [displayTitle] => 
-                    [inputType] => 
-                    [rangeMin] => 
-                    [rangeMax] => 
-                    [calendarIconType] => 
-                    [calendarIconUrl] => 
-                    [dateType] => 
-                    [dateFormat] => 
-                    [phoneFormat] => 
-                    [addressType] => 
-                    [defaultCountry] => 
-                    [defaultProvince] => 
-                    [defaultState] => 
-                    [hideAddress2] => 
-                    [hideCountry] => 
-                    [hideState] => 
-                    [inputs] => 
-                    [nameFormat] => 
-                    [allowedExtensions] => 
-                    [captchaType] => 
+                    [postCustomFieldName] =>
+                    [displayAllCategories] =>
+                    [displayCaption] =>
+                    [displayDescription] =>
+                    [displayTitle] =>
+                    [inputType] =>
+                    [rangeMin] =>
+                    [rangeMax] =>
+                    [calendarIconType] =>
+                    [calendarIconUrl] =>
+                    [dateType] =>
+                    [dateFormat] =>
+                    [phoneFormat] =>
+                    [addressType] =>
+                    [defaultCountry] =>
+                    [defaultProvince] =>
+                    [defaultState] =>
+                    [hideAddress2] =>
+                    [hideCountry] =>
+                    [hideState] =>
+                    [inputs] =>
+                    [nameFormat] =>
+                    [allowedExtensions] =>
+                    [captchaType] =>
                     [pageNumber] => 1
-                    [captchaTheme] => 
-                    [simpleCaptchaSize] => 
-                    [simpleCaptchaFontColor] => 
-                    [simpleCaptchaBackgroundColor] => 
-                    [failed_validation] => 
-                    [productField] => 
-                    [enablePasswordInput] => 
-                    [maxLength] => 
-                    [enablePrice] => 
-                    [basePrice] => 
-                    [calculationFormula] => 
-                    [calculationRounding] => 
-                    [enableCalculation] => 
-                    [disableQuantity] => 
-                    [inputMask] => 
-                    [inputMaskValue] => 
+                    [captchaTheme] =>
+                    [simpleCaptchaSize] =>
+                    [simpleCaptchaFontColor] =>
+                    [simpleCaptchaBackgroundColor] =>
+                    [failed_validation] =>
+                    [productField] =>
+                    [enablePasswordInput] =>
+                    [maxLength] =>
+                    [enablePrice] =>
+                    [basePrice] =>
+                    [calculationFormula] =>
+                    [calculationRounding] =>
+                    [enableCalculation] =>
+                    [disableQuantity] =>
+                    [inputMask] =>
+                    [inputMaskValue] =>
                     [formId] => 1
                     [descriptionPlacement] => below
                 )

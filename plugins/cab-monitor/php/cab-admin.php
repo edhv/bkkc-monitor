@@ -2,9 +2,9 @@
 
 class cab_admin
 {
-	
+
 	var $settings;
-	
+
 	function __construct()
 	{
 
@@ -14,7 +14,7 @@ class cab_admin
 
 
 
-		add_action( 'add_meta_boxes', array($this, 'cd_meta_box_add'),1 );  
+		add_action( 'add_meta_boxes', array($this, 'cd_meta_box_add'),1 );
 
 		add_action('admin_head', array($this, 'init'), 1);
 
@@ -22,12 +22,12 @@ class cab_admin
 		add_action( 'admin_init', array($this, 'cab_admin_init'),1 );
 
 
-		add_filter('manage_cab_organisation_posts_columns', array($this, 'cab_organisation_columns_head'), 10);  
+		add_filter('manage_cab_organisation_posts_columns', array($this, 'cab_organisation_columns_head'), 10);
 		add_action('manage_cab_organisation_posts_custom_column', array($this, 'cab_organisation_columns_content'), 10, 2);
 		add_filter("manage_edit-cab_organisation_sortable_columns", array($this, 'cab_organisation_register_sortable'), 10 );
-		add_action( 'pre_get_posts', array($this, 'vragenlijst_column_orderby') );  
+		add_action( 'pre_get_posts', array($this, 'vragenlijst_column_orderby') );
 
-	
+
 		add_action( 'admin_notices', array($this, 'my_admin_notices') );
 
 
@@ -141,7 +141,8 @@ class cab_admin
 										"fonds_creatieve_industrie" => array("label"=>"Fonds creatieve industrie", "type"=>"text"),
 										"letterenfonds" => array("label"=>"letteren fonds", "type"=>"text"),
 										"overig" => array("label"=>"Overig", "type"=>"text"),
-										"overig_toelichting" => array("label"=>"Overig Toelichting", "type"=>"text")
+										"overig_toelichting" => array("label"=>"Overig Toelichting", "type"=>"text"),
+                    "totaal" => array("label"=>"Totaal", "type"=>"text")
 
 
 									)
@@ -195,8 +196,8 @@ class cab_admin
 										"publieksinkomsten" => array("label"=>"Publieksinkomsten", "type"=>"text"),
 										"sponsoring" => array("label"=>"Sponsorinkomsten", "type"=>"text"),
 										"private_fondsen" => array("label"=>"Private fondsen", "type"=>"text"),
-										"overig" => array("label"=>"Overige inkomsten", "type"=>"text")
-										// "totaal" => array("label"=>"Totaal", "type"=>"text")
+										"overig" => array("label"=>"Overige inkomsten", "type"=>"text"),
+										"totaal" => array("label"=>"Totaal", "type"=>"text")
 									)
 								)
 							)
@@ -225,7 +226,7 @@ class cab_admin
 										"freelancers_fte" => array("label"=>"Fte tijdelijk contract", "type"=>"text"),
 										"vrijwilligers" => array("label"=>"Vrijwilligers personen", "type"=>"text"),
 										"vrijwilligers_fte" => array("label"=>"Vrijwilligers fte", "type"=>"text"),
-
+                    "totaal_fte" => array("label"=>"Totaal fte", "type"=>"text")
 									)
 								)
 							)
@@ -239,7 +240,8 @@ class cab_admin
 									"fields" => array(
 										"lasten_vastcontract" => array("label"=>"Vast contract", "type"=>"text"),
 										"lasten_tijdelijk" => array("label"=>"Tijdelijk personeel", "type"=>"text"),
-										"lasten_inhuur" => array("label"=>"Inhuur", "type"=>"text")
+										"lasten_inhuur" => array("label"=>"Inhuur", "type"=>"text"),
+                    "totaal" => array("label"=>"Totaal", "type"=>"text")
 									)
 								)
 							)
@@ -459,7 +461,7 @@ class cab_admin
 									"fields" => array(
 										"id" => array("label"=>"id","type"=>"hidden"),
 										"aanv_vragenlijst_id" => array("label"=>"aan_vragenlijst_id", "type"=>"hidden"),
-										//"totaal" => array("label"=>"Totaal", "type"=>"text"),
+										"totaal" => array("label"=>"Totaal", "type"=>"text"),
 										"standplaats" => array("label"=>"Standplaats", "type"=>"text"),
 										"provincie" => array("label"=>"Provincie", "type"=>"text"),
 										"nederland" => array("label"=>"Nederland", "type"=>"text"),
@@ -570,8 +572,8 @@ class cab_admin
 			)
 		);
 
-		
-		
+
+
 		// Here some defenition can be set for the values, for instance to format them before being saved to the database
 		$this->organisation_data_field_formats = array(
 			"cab_organisatie" => array(
@@ -619,7 +621,7 @@ function init() {
    // 		//$wpdb->update($wpdb->users, array('user_login' => sanitize_title($userMeta['user-cab_organisatie-naam'][0], $userMail)), array('ID' => $userId));
    // 		echo $wpdb->update($wpdb->users, array(
    // 				'display_name' => $user->user_login
-   // 			), 
+   // 			),
    // 			array('ID' => $userId)
    // 		);
 
@@ -663,32 +665,32 @@ function my_admin_notices(){
   unset ($_SESSION['my_admin_notices']);
 }
 
-function cd_meta_box_add()  
-{  
+function cd_meta_box_add()
+{
 	global $post;
 	// Check if there is a user connected to the organisation.
 	// If not give the option to create a user
 	 if (!get_field("gekoppelde_gebruiker", $post->ID)) {
-	 	add_meta_box( 'cab-metabox_add-user', 'Gebruiker toevoegen', array($this, 'cab_metabox_add_user'), 'cab_organisation', 'side', 'high' );  
- 
+	 	add_meta_box( 'cab-metabox_add-user', 'Gebruiker toevoegen', array($this, 'cab_metabox_add_user'), 'cab_organisation', 'side', 'high' );
+
 	 } else {
-	 	add_meta_box( 'cab-metabox_user-data', 'Organisatie informatie', array($this, 'cab_metabox_user_data'), 'cab_organisation', 'normal', 'high' );  
+	 	add_meta_box( 'cab-metabox_user-data', 'Organisatie informatie', array($this, 'cab_metabox_user_data'), 'cab_organisation', 'normal', 'high' );
 
 	 }
 
-	add_meta_box( 'cab-metabox_geo-data', 'Geo locatie', array($this, 'cab_metabox_geo_data'), 'cab_organisation', 'normal', 'high' );  
+	add_meta_box( 'cab-metabox_geo-data', 'Geo locatie', array($this, 'cab_metabox_geo_data'), 'cab_organisation', 'normal', 'high' );
 
-	
+
 	$periods = $this->cab_functions->get_available_forms($post->ID, false);
 
 	foreach ($periods as $key => $period) {
-		add_meta_box( 'cab-metabox_data-'.$period->slug, $period->name, array($this, 'cab_metabox_all_data'), 'cab_organisation', 'normal', 'default', array( 'organisation_id' => $post->ID, 'period_id' => $period->term_id));  
- 
+		add_meta_box( 'cab-metabox_data-'.$period->slug, $period->name, array($this, 'cab_metabox_all_data'), 'cab_organisation', 'normal', 'default', array( 'organisation_id' => $post->ID, 'period_id' => $period->term_id));
+
 		# code...
 	}
 
 
-}  
+}
 
 
 
@@ -700,7 +702,7 @@ function cab_admin_init() {
 	wp_enqueue_script( 'cab-admin-main', plugins_url( '/js/admin-main.js', dirname(__FILE__)), array( 'jquery' ) );
 
 	// Localize the script with new data
-	$wordpress_vars_array = array( 
+	$wordpress_vars_array = array(
 		'wpurl' => get_bloginfo('wpurl'),
 		'url' => get_bloginfo('url')
 	);
@@ -712,13 +714,13 @@ function cab_admin_init() {
 
 function cab_metabox_geo_data() {
 	//     echo $klaas;
- 	wp_nonce_field( 'my_meta_box_nonce', 'meta_box_nonce' ); 
+ 	wp_nonce_field( 'my_meta_box_nonce', 'meta_box_nonce' );
 
  	 global $post;
 
  	// Check if organisation has geo data
  	if (!isset($this->user_meta['user-cab_geo']) || $this->user_meta['user-cab_geo'] != '' ) {
- 	
+
  		$geo_coordinates = $this->cab_functions->get_geo_coordinates_by_id($post->ID);
 
  		if ($geo_coordinates != false) {
@@ -747,7 +749,7 @@ function cab_metabox_user_data() {
 
 
 	//     echo $klaas;
- 	wp_nonce_field( 'my_meta_box_nonce', 'meta_box_nonce' ); 
+ 	wp_nonce_field( 'my_meta_box_nonce', 'meta_box_nonce' );
 	 		echo '<div class="metabox_section clearfix">';
 	 foreach ($this->organisation_user_data['fieldgroups']['group']['fields'] as $key => $field) {
 
@@ -785,7 +787,7 @@ function cab_metabox_all_data($post, $metabox) {
 	// Check form activity
 	$form_activity = $this->cab_functions->form_activity_get_data($organisation_id, $period_id);
 
-	
+
 	$this->organisation_data = $this->cab_functions->get_organisation_data($organisation_id);
 	$gform_fields = $this->cab_functions->get_gform_form_data(1);
 
@@ -810,7 +812,7 @@ function cab_metabox_all_data($post, $metabox) {
      //                [data] => Array
      //                    (
      //                        [cab_activiteiten] => Array
-     //      
+     //
 
 
 		# code...
@@ -830,9 +832,9 @@ function cab_metabox_all_data($post, $metabox) {
 
 
 			$table_name = $tab_values['data']['structure']['database'];
-		
+
 			$data_group_id = false; // holds the id of the vragenlijst group
-			$nr_of_vragenlijsten = count($this->organisation_data['periodical'][$period_id]['data'][$table_name]);	
+			$nr_of_vragenlijsten = count($this->organisation_data['periodical'][$period_id]['data'][$table_name]);
 			//$value = $this->organisation_data['periodical'][$period_id]['data'][$table_name][0][$key];
 
 			// if there is data available
@@ -848,7 +850,7 @@ function cab_metabox_all_data($post, $metabox) {
 
 						$vragenlijst_id = $vragenlijst['aanv_vragenlijst_id'];
 						$data_group_id = $key;
-					}	
+					}
 
 
 					// Walk through columns
@@ -863,7 +865,7 @@ function cab_metabox_all_data($post, $metabox) {
 						}
 
 
-					}			
+					}
 
 					// Create html
 					foreach ($tab_body_columns as $key => $tab_column) {
@@ -879,7 +881,7 @@ function cab_metabox_all_data($post, $metabox) {
 					//print_r($tab_body_columns);
 
 
-				} 
+				}
 
 			} else {
 
@@ -895,7 +897,7 @@ function cab_metabox_all_data($post, $metabox) {
 				// 	if ($nr_of_vragenlijsten > 1) {
 				// 		$vragenlijst_id = $vragenlijst['aanv_vragenlijst_id'];
 				// 		$data_group_id = $key;
-				// 	}	
+				// 	}
 
 
 					// Walk through columns
@@ -911,8 +913,8 @@ function cab_metabox_all_data($post, $metabox) {
 							if (isset($group['fields']['aanv_vragenlijst_id']) && isset($vragenlijstCategories[0])) {
 								$vragenlijst_id = $vragenlijstCategories[0];
 							}
-					
-							//if 
+
+							//if
 							//print_r($group);
 						 	//$tab_body .= $this->cab_metabox_create_group($group,$table_name,$period_id, $vragenlijst_id, $data_group_id);
 						 	$tab_body_columns[$key][$i] = $this->cab_metabox_create_group($group,$table_name,$period_id, $vragenlijst_id);
@@ -920,7 +922,7 @@ function cab_metabox_all_data($post, $metabox) {
 						}
 
 
-					}			
+					}
 
 					// Create html
 					foreach ($tab_body_columns as $key => $tab_column) {
@@ -936,7 +938,7 @@ function cab_metabox_all_data($post, $metabox) {
 					//print_r($tab_body_columns);
 
 
-				// } 
+				// }
 
 
 
@@ -953,7 +955,7 @@ function cab_metabox_all_data($post, $metabox) {
 			$tab_body .= call_user_func(array($this, $tab_values['data']['structure']['function']), array("data"=>$this->organisation_data['periodical'][$period_id]['data']['kernactiviteiten'],"organisation_id"=>$organisation_id,"period_id"=>$period_id));
 
 		}
-	
+
 
 
 		array_push($tab_content, $tab_header.$tab_body.$tab_footer);
@@ -1017,7 +1019,7 @@ function cab_metabox_all_data($post, $metabox) {
 	function cab_metabox_create_group($group, $table_name, $period_id, $vragenlijst_id = false, $data_group_id = false) {
 
 		//print_r($this->organisation_data['periodical']);
-		
+
 		// Get vragenlijst title
 		$vragenlijst_title = "";
 		if ($vragenlijst_id) {
@@ -1046,7 +1048,7 @@ function cab_metabox_all_data($post, $metabox) {
 
 					// if format is decimal, format the number
 					if ($this->organisation_data_field_formats[$table_name][$key]['format'] == 'decimal') {
-		
+
 						$value = number_format( $value, 2 , "," , "."  );
 					}
 
@@ -1071,10 +1073,10 @@ function cab_organisation_columns_head($columns) {
 		'status' => __( 'Status'),
 		'bloementuin' => __( 'Bloementuin' ),
 		'vragenlijst' => __( 'Vragenlijst'),
-		'2' => __( '2011' ), 
-		'3' => __( '2013 begroot' ), 
-		'4' => __( '2013' ), 
-		'5' => __( '2014' ), 
+		'2' => __( '2011' ),
+		'3' => __( '2013 begroot' ),
+		'4' => __( '2013' ),
+		'5' => __( '2014' ),
 		'date' => __( 'Date' )
 	);
 
@@ -1097,12 +1099,12 @@ function cab_organisation_columns_content($column, $post_id) {
 				echo $categories[$organisation_status];
 
 
-			} 
+			}
 			//echo intval(get_field('organisation_status', $post->ID));
 			// if (isset(var))
 			// print_r($categories[get_field('organisation_status', $post->ID)]);
 			//echo  get_field('organisation_status', $post->ID);
-		
+
 		break;
 
 		/* If displaying the 'duration' column. */
@@ -1151,27 +1153,27 @@ function cab_organisation_columns_content($column, $post_id) {
 }
 
 
-function vragenlijst_column_orderby( $query ) {  
+function vragenlijst_column_orderby( $query ) {
 	//print_r($query);
 	//exit();
-     if( ! is_admin() )  
-         return;  
+     if( ! is_admin() )
+         return;
 
-     $orderby = $query->get( 'orderby');  
- 
+     $orderby = $query->get( 'orderby');
+
      if ('status' == $orderby) {
-     	$query->set('meta_key','organisation_status');  
- 		$query->set('orderby','meta_value_num');  
+     	$query->set('meta_key','organisation_status');
+ 		$query->set('orderby','meta_value_num');
      }
-    // if( 'event_date' == $orderby ) {  
-    //     $query->set('meta_key','_wr_event_date');  
-    //     $query->set('orderby','meta_value_num');  
-    // }  
-} 
+    // if( 'event_date' == $orderby ) {
+    //     $query->set('meta_key','_wr_event_date');
+    //     $query->set('orderby','meta_value_num');
+    // }
+}
 
 
 function cab_organisation_register_sortable( $columns )
-{	
+{
 	$columns['status'] = 'status';
 
 	// $columns['vragenlijst'] = 'vragenlijst';
@@ -1231,7 +1233,7 @@ function get_tab_content_kernactiviteiten_checkboxgroup($period_id, $group, $lab
 	$return_html .= "</div>";
 
 	return $return_html;
-}	
+}
 
 
     function cab_metabox_create_input($name, $group, $label, $period = false, $type = 'text', $value = '', $vragenlijst_id = false, $field = false) {
@@ -1275,7 +1277,7 @@ function get_tab_content_kernactiviteiten_checkboxgroup($period_id, $group, $lab
     					$is_checked = '';
     				}
 
-  					$field_html .= '<li><input name="'.$field_name.'" type="radio" value="'.$choice['value'].'" '.$is_checked.' ><label >'.$choice['text'].'</label></li>';			
+  					$field_html .= '<li><input name="'.$field_name.'" type="radio" value="'.$choice['value'].'" '.$is_checked.' ><label >'.$choice['text'].'</label></li>';
     			}
     				//print_r($field_structure);
 
@@ -1329,10 +1331,10 @@ function get_tab_content_kernactiviteiten_checkboxgroup($period_id, $group, $lab
 	    	if (!username_exists( $user_name )) {
 
 				$random_password = wp_generate_password( $length=6, $include_standard_special_chars=false );
-				
+
 				$createUserResponse = wp_insert_user( array (
-						'user_login' => sanitize_title( $user_name, $user_email ), 
-						'user_pass' => $random_password, 
+						'user_login' => sanitize_title( $user_name, $user_email ),
+						'user_pass' => $random_password,
 						'user_email' => $user_email,
 						'role' => 'cab_organisation'
 						)
@@ -1345,10 +1347,10 @@ function get_tab_content_kernactiviteiten_checkboxgroup($period_id, $group, $lab
 				} else {
 					$user_id = $createUserResponse;
 				}
-			
+
 				// Add user to the post
 				$_POST['fields']['field_51e66e085064e'] = $user_id;
-	
+
 				update_user_meta( $user_id, 'user-cab_organisatie-password', $random_password);
 
 	    	} else {
@@ -1375,9 +1377,9 @@ function get_tab_content_kernactiviteiten_checkboxgroup($period_id, $group, $lab
 
 
 
-	
+
 		// Save the data
-		
+
 		// remove the cached data
 	    $this->cab_functions->remove_caches($post_id);
 
@@ -1412,10 +1414,10 @@ function get_tab_content_kernactiviteiten_checkboxgroup($period_id, $group, $lab
 		    			foreach ($table_data as $key => $values) {
 		    				// Remove all current items
 		    				$this->cab_functions->delete_row("cab_organisatie_".$key, array('period_id' => $period_id, 'organisation_id' => $post->ID));
-		    				
+
 		    				// Add new items
 		    				foreach ($values as $value) {
-		    				 	$this->cab_functions->add_data("cab_organisatie_".$key, $post->ID, $period_id,array($key."_id" => $value)); 
+		    				 	$this->cab_functions->add_data("cab_organisatie_".$key, $post->ID, $period_id,array($key."_id" => $value));
 
 		    				}
 
@@ -1480,7 +1482,7 @@ function get_tab_content_kernactiviteiten_checkboxgroup($period_id, $group, $lab
 		    }
 
 
-		} 
+		}
 
 
 
@@ -1520,7 +1522,7 @@ function update_data($id = false, $table_name, $data = false) {
 					$columns[$key] = str_replace(',', '.', $value);
 
 				}
-	
+
 			}
 		}
 
@@ -1532,8 +1534,8 @@ function update_data($id = false, $table_name, $data = false) {
 	// If has id update
 	if ($id) {
 
-		 $wpdb->update( 
-         	$wpdb->prefix.$table_name, 
+		 $wpdb->update(
+         	$wpdb->prefix.$table_name,
         		$columns,
          	array( 'id' => $id )
         );
@@ -1541,8 +1543,8 @@ function update_data($id = false, $table_name, $data = false) {
 	} else {
 
 		// No id add new
-	    $wpdb->insert( 
-	        $wpdb->prefix.$table_name,  
+	    $wpdb->insert(
+	        $wpdb->prefix.$table_name,
 			$columns
 	    );
 
@@ -1556,11 +1558,11 @@ function update_data($id = false, $table_name, $data = false) {
 function update_subsidy($organisation_id, $amount) {
     global $wpdb;
 
-    $wpdb->update( 
-        $wpdb->prefix.'cab_subsidy', 
-        array( 
+    $wpdb->update(
+        $wpdb->prefix.'cab_subsidy',
+        array(
 'amount' => $amount  // string
-), 
+),
         array( 'organisation_id' => $organisation_id ));
 }
 
